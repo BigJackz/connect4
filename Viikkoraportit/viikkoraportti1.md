@@ -7,4 +7,4 @@ Ohjelma on edistynyt ajatuksen tasolla, kun olen vähän suunnitellut miten aion
 
 Opin hieman enemmän minimax-algoritmin toiminnasta, mutta en kuitenkaan sisäistänyt sitä vielä kokonanaan. Tähän on siis palattava vielä.
 
-Seuraavaksi tarkoituksena olisi aloittaa itse ohjelmakoodin kirjoittamisen.
+Seuraavaksi tarkoituksena olisi aloittaa itse ohjelmakoodin kirjoittaminen.

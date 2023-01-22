@@ -1,5 +1,5 @@
 ### Connect Four
-**opinto-ohjelma: Tietojenkäsittylytieteen kandidaatti(TKT)
+**opinto-ohjelma: Tietojenkäsittylytieteen kandidaatti(TKT)**
 opinto-ohjelman kieli: **suomi**
 projektin kieli: **suomi**
 

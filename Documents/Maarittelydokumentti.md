@@ -18,4 +18,4 @@ Valitsin kyseisen algoritmin, sillä toteutan Connect Four peliin tekoälyn, jot
 #### Aikavaativuus
 
 Tavoitteena olisi saada tekoäly toimimiaan suhteellisen nopeasti, ettei pelaajan tarvitsisi odotella koko päivää tekoälyn siirtoa.
-Tilavaativuudesta en vielä tiedä, mutta olisi hyädyllistä, jos ohjelma ei veisi liikaa tilaa, varsinkaan turhaa tilaa.
+Tilavaativuudesta en vielä tiedä, mutta olisi hyödyllistä, jos ohjelma ei vie liikaa tilaa, varsinkaan turhaa tilaa.

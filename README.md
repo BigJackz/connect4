@@ -1,6 +1,10 @@
 # Connect Four README
 
 ### Dokumentit
-###### Viikkoraportit
+##### Viikkoraportit
 
-[Viikkoraporti1](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Viikkoraportit/viikkoraportti1.md)
+[Viikkoraportti1](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Viikkoraportit/viikkoraportti1.md)
+
+##### Määrittelydokumentti
+
+[Määrittelydokumentti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Maarittelydokumentti.md)

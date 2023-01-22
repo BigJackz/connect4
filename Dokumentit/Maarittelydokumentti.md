@@ -8,7 +8,7 @@ projektin kieli: **suomi**
 
 Valitsin aiheeksi Connect Four pelin. Pelin on tarkoitus toimia graafisella käyttöliittymällä, jossa tiputetaan pallo hiirellä klikkaamalla kohdasta johon haluaa sen sijoittaa.
 
-Ohjelmointikielenä aion käyttää pythonia. Hallitsen Javaa jonkin verran, sillä alunperin kävin ohjelmointikurssit Javalla, joten toisten töiden arvoinnin pitäisi onnistua myös Javalla, pienen muistelun jälkeen.
+Ohjelmointikielenä aion käyttää Pythonia. Hallitsen Javaa jonkin verran, sillä alunperin kävin ohjelmointikurssit Javalla, joten toisten töiden arvoinnin pitäisi onnistua myös Javalla, pienen muistelun jälkeen.
 
 #### Algoritmit ja tietorakenteen
 

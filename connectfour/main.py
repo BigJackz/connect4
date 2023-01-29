@@ -26,26 +26,99 @@ class peli:
     # tarkistetaan onko jonpi kumpi pelaajista voittanut
     def voiton_tarkastaja(self):
         tieto = self.voitto_vaakasuunnassa()
+        tieto2 = self.voitto_pystysuunnassa()
+        tieto3 = self.voitto_diagonaalissa()
+        for i in range(7):
+            print(self.pelipoyta[i])
         if tieto[0]:
-            print(f"Pelaaja {tieto[1]} voitti")
+            print(f"Pelaaja {tieto[1]} voitti! (vaakasuunnassa)")
 
-    def voitto_pystysuunnassa(self):
-        laskuri_1 = 0 # pidetään täällä tieto siitä onko 4 samaa laattaa pystysuunnassa pelaajalla 1
-        laskuri_2 = 0 # pidetään täällä tieto siitä onko 4 samaa laattaa pystysuunnassa pelaajalla 2
-        for y in range(0,4):
-            for x in self.pelipoyta[y]:
-                if x == 1:# and y >= 3:
-                    laskuri_1 += 1
-                    for i in range(0,4):
-                        if self.pelipoyta[y+i][x] == 1:
-                            laskuri_1 += 1
-        if laskuri_1 == 4:
-            print("seppo taalasmaa")
+        if tieto2[0]:
+            print(f"Pelaaja {tieto2[1]} voitti! (pystysuunnassa)")
+        if tieto3[0]:
+            print(f"Pelaaja {tieto3[1]} voitti! (diagonaalissa)")
+        #self.voitto_diagonaalissa()
+        
+
+    #Voitto diagonaalissa vielä kesken ei hyväksy alhaalta ylös oikealle meneviä diagonaalirivejä
+    def voitto_diagonaalissa(self):
+        for i in range(7):
             laskuri_1 = 0
-                    
+            laskuri_2 = 0
+            if self.pelipoyta[3][i] != 0:   #tarkistetaan onko neljännellä rivillä muuta arvoa kuin 0 jos ei, niin ei ole mahdollista voittaa diagonaalissa
+                luku = i-3
+                
+                if luku < 0:
+                    luku = abs(luku)
+                    for ii in range(7-luku):
+                        if self.pelipoyta[luku+ii][0+ii] == 0:
+                            laskuri_1 = 0
+                            laskuri_2 = 0
+                        elif self.pelipoyta[luku+ii][0+ii] == 1:
+                            laskuri_1 += 1
+                            laskuri_2 = 0
+                            if laskuri_1 == 4:
+                                #print("pelaaja 1 on diagonaaliviineri")
+                                return True,1
+                        elif self.pelipoyta[luku+ii][0+ii] == 2:
+                            laskuri_2 += 1
+                            laskuri_1 = 0
+                            if laskuri_2 == 4:
+                                #print("pelaaja 2 on diagonaaliviineri")
+                                return True,2
 
-                    
+                else:
+                    for ii in range(7-luku):
+                        if self.pelipoyta[0+ii][luku+ii] == 0:
+                            laskuri_1 = 0
+                            laskuri_2 = 0
+                        if self.pelipoyta[0+ii][luku+ii] == 1:
+                            laskuri_1 += 1
+                            laskuri_2 = 0
+                            if laskuri_1 == 4:
+                                print("pelaaja 1 on diagonaaliviineri")
+                                return True,1
+                        if self.pelipoyta[0+ii][luku+ii] == 2:
+                            laskuri_2 += 1
+                            laskuri_1 = 0
+                            if laskuri_2 == 4:
+                                print("pelaaja 2 on diagonaaliviineri")
+                                return True,2
+                luku2 = 2
+        else:
+            return False,0
+                
 
+
+
+
+
+    def voitto_pystysuunnassa(self): 
+        for i in range(4):           # Käydään läpi pelipöydän 4 ylintä tasoa, koska vasta 4 rivillä voi olla 4 pystysuunnassa olevaa laattaa          
+            for ii in range(7):
+                laatta = self.pelipoyta[i][ii]
+                laskuri_1 = 0           # pidetään täällä tieto siitä onko 4 samaa laattaa pystysuunnassa pelaajalla 1
+                laskuri_2 = 0           # pidetään täällä tieto siitä onko 4 samaa laattaa pystysuunnassa pelaajalla 2
+                if laatta == 1:
+                    for y in range(4):
+                        if self.pelipoyta[i+y][ii] == 1:
+                            laskuri_1 += 1
+                            if laskuri_1 == 4:
+                                print("player 1 is the viiner")
+                                return True,1
+                        else:
+                            break
+                elif laatta == 2:
+                    for y in range(4):
+                        if self.pelipoyta[i+y][ii] == 2:
+                            laskuri_2 += 1
+                            if laskuri_2 == 4:
+                                print("player 2 is the viiner")
+                                return True,2
+                        else:
+                            break
+        else:                
+            return False,0
 
 
     #Tarkistetaan onko voittoa saavutettu vaakasuunnassa, jos voitto löytyi palautetaan Tuple True,(pelaajan numero), jos ei löytynyt niin palautetaan Tuple (False,0)
@@ -78,8 +151,8 @@ class peli:
                 break
         else:
             self.vaihda_pelaajan_vuoro()
-        self.voitto_pystysuunnassa()
         self.voiton_tarkastaja()
+
         #paikka = 6
         #if self.pelipoyta[paikka][koordinaatti] == 0:
         #    self.pelipoyta[paikka][koordinaatti] = 
@@ -92,10 +165,10 @@ class peli:
         aito_x = int(x[0])
         if len(x) < 3: #jos x alle 3 mittainen kyseessä ensimmäinen sarake
             self.aseta_pala(0)
-            print(0)
+            #print(0)
         else:
             self.aseta_pala(aito_x)
-            print(aito_x)
+            #print(aito_x)
 
 
     # Tällä vaihdetaan kumman pelaajan vuoro on asettaa laatta

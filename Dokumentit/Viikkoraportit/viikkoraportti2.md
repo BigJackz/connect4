@@ -1,7 +1,7 @@
 ### Viikkoraportti 2
 Tällä viikolla käytetty aika noin 10 tuntia.
 
-Tällä viikolla aloin projektin koodauksen ja olen saanut perusominaisuuksia tehtyä, mutta taistelin poetryn kanssa enkä saanut sitä vielä toimimaan Windowsilla, aikaisemmin olen käyttänyt linuxia, jolloin se on toiminut moitteettomasti. Tästä syystä en ole vielä tehnyt yhtäkään testiä, mutta kunhan saan poetryn toimimaan niin alan kirjoittelemaan niitäkin.
+Tällä viikolla aloitin projektin koodauksen ja olen saanut perusominaisuuksia tehtyä, mutta taistelin poetryn kanssa enkä saanut sitä vielä toimimaan Windowsilla, aikaisemmin olen käyttänyt linuxia, jolloin se on toiminut moitteettomasti. Tästä syystä en ole vielä tehnyt yhtäkään testiä, mutta kunhan saan poetryn toimimaan niin alan kirjoittelemaan niitäkin.
 
 Ohjelma on edistynyt perusominaisuuksien osalta hyvin, mutta itse pelin tekoälyn tekemistä en ole vielä aloittanut, sillä peli ei ole vielä pelattavassa vaiheessa edes itseään vastaan.
 

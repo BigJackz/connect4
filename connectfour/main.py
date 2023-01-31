@@ -32,7 +32,6 @@ class peli:
             print(self.pelipoyta[i])
         if tieto[0]:
             print(f"Pelaaja {tieto[1]} voitti! (vaakasuunnassa)")
-
         if tieto2[0]:
             print(f"Pelaaja {tieto2[1]} voitti! (pystysuunnassa)")
         if tieto3[0]:
@@ -40,7 +39,7 @@ class peli:
         #self.voitto_diagonaalissa()
         
 
-    #Voitto diagonaalissa vielä kesken ei hyväksy alhaalta ylös oikealle meneviä diagonaalirivejä
+    #Tarkistaa onko voittoa saavutettu diagonaalissa
     def voitto_diagonaalissa(self):
         for i in range(7):
             laskuri_1 = 0
@@ -58,13 +57,11 @@ class peli:
                             laskuri_1 += 1
                             laskuri_2 = 0
                             if laskuri_1 == 4:
-                                #print("pelaaja 1 on diagonaaliviineri")
                                 return True,1
                         elif self.pelipoyta[luku+ii][0+ii] == 2:
                             laskuri_2 += 1
                             laskuri_1 = 0
                             if laskuri_2 == 4:
-                                #print("pelaaja 2 on diagonaaliviineri")
                                 return True,2
 
                 else:
@@ -76,22 +73,48 @@ class peli:
                             laskuri_1 += 1
                             laskuri_2 = 0
                             if laskuri_1 == 4:
-                                print("pelaaja 1 on diagonaaliviineri")
                                 return True,1
                         if self.pelipoyta[0+ii][luku+ii] == 2:
                             laskuri_2 += 1
                             laskuri_1 = 0
                             if laskuri_2 == 4:
-                                print("pelaaja 2 on diagonaaliviineri")
                                 return True,2
-                luku2 = 2
+                
+                luku2 = i-3
+                if luku2 <= 0:
+                    luku = abs(luku)
+                    for ii in range(7-luku):
+                        if self.pelipoyta[0+ii][6-luku-ii] == 0:
+                            laskuri_1 = 0
+                            laskuri_2 = 0
+                        if self.pelipoyta[0+ii][6-luku-ii] == 1:
+                            laskuri_1 += 1
+                            laskuri_2 = 0
+                            if laskuri_1 == 4:
+                                return True,1
+                        if self.pelipoyta[0+ii][6-luku-ii] == 2:
+                            laskuri_1 = 0
+                            laskuri_2 += 1
+                            if laskuri_2 == 4:
+                                return True,2
+                else:
+                    for ii in range(7-luku):
+                        if self.pelipoyta[luku+ii][6-ii] == 0:
+                            laskuri_1 = 0
+                            laskuri_2 = 0
+                        if self.pelipoyta[luku+ii][6-ii] == 1:
+                            laskuri_1 += 1
+                            laskuri_2 = 0
+                            if laskuri_1 == 4:
+                                return True,1
+                        if self.pelipoyta[luku+ii][6-ii] == 2:
+                            laskuri_1 = 0
+                            laskuri_2 += 1
+                            if laskuri_2 == 4:
+                                return True,2
         else:
             return False,0
-                
-
-
-
-
+            
 
     def voitto_pystysuunnassa(self): 
         for i in range(4):           # Käydään läpi pelipöydän 4 ylintä tasoa, koska vasta 4 rivillä voi olla 4 pystysuunnassa olevaa laattaa          

@@ -1,9 +1,18 @@
 import pygame
+import sys
+from logiikka import voiton_tarkastaja
+from logiikka import vuoro
 
+YELLOW = (253,253,77)
+PAAVALIKKO_POS = (450,30)
 
 class peli:
     def __init__(self) -> None:
-        self.pelaaja = 1
+        pygame.init()
+        self.pelaajan_vuoro = vuoro()
+        self.tilanne = 2
+        self.voittaja = 0
+        self.voitto = False
         self.pelipoyta = [
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
@@ -13,7 +22,7 @@ class peli:
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0]
         ]
-        self.korkeus = 680
+        self.korkeus = 780
         self.leveys = 680
         self.lataa_kuvat()
 
@@ -22,166 +31,57 @@ class peli:
 
         self.silmukka()
 
+    #Tyhjentää pöydän
+    def tyhjenna_poyta(self):
+        self.pelipoyta = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0]
+        ]
+
 
     # tarkistetaan onko jonpi kumpi pelaajista voittanut
     def voiton_tarkastaja(self):
-        tieto = self.voitto_vaakasuunnassa()
-        tieto2 = self.voitto_pystysuunnassa()
-        tieto3 = self.voitto_diagonaalissa()
+        v = voiton_tarkastaja()
+        tieto = v.voitto_vaakasuunnassa(self.pelipoyta)
+        tieto2 = v.voitto_pystysuunnassa(self.pelipoyta)
+        tieto3 = v.voitto_diagonaalissa(self.pelipoyta)
         for i in range(7):
             print(self.pelipoyta[i])
         if tieto[0]:
+            self.voittaja = tieto[1]
             print(f"Pelaaja {tieto[1]} voitti! (vaakasuunnassa)")
-        if tieto2[0]:
-            print(f"Pelaaja {tieto2[1]} voitti! (pystysuunnassa)")
-        if tieto3[0]:
-            print(f"Pelaaja {tieto3[1]} voitti! (diagonaalissa)")
-        #self.voitto_diagonaalissa()
-        
-
-    #Tarkistaa onko voittoa saavutettu diagonaalissa
-    def voitto_diagonaalissa(self):
-        for i in range(7):
-            laskuri_1 = 0
-            laskuri_2 = 0
-            if self.pelipoyta[3][i] != 0:   #tarkistetaan onko neljännellä rivillä muuta arvoa kuin 0 jos ei, niin ei ole mahdollista voittaa diagonaalissa
-                luku = i-3
-                
-                if luku < 0:
-                    luku = abs(luku)
-                    for ii in range(7-luku):
-                        if self.pelipoyta[luku+ii][0+ii] == 0:
-                            laskuri_1 = 0
-                            laskuri_2 = 0
-                        elif self.pelipoyta[luku+ii][0+ii] == 1:
-                            laskuri_1 += 1
-                            laskuri_2 = 0
-                            if laskuri_1 == 4:
-                                return True,1
-                        elif self.pelipoyta[luku+ii][0+ii] == 2:
-                            laskuri_2 += 1
-                            laskuri_1 = 0
-                            if laskuri_2 == 4:
-                                return True,2
-
-                else:
-                    for ii in range(7-luku):
-                        if self.pelipoyta[0+ii][luku+ii] == 0:
-                            laskuri_1 = 0
-                            laskuri_2 = 0
-                        if self.pelipoyta[0+ii][luku+ii] == 1:
-                            laskuri_1 += 1
-                            laskuri_2 = 0
-                            if laskuri_1 == 4:
-                                return True,1
-                        if self.pelipoyta[0+ii][luku+ii] == 2:
-                            laskuri_2 += 1
-                            laskuri_1 = 0
-                            if laskuri_2 == 4:
-                                return True,2
-                
-                luku2 = i-3
-                if luku2 <= 0:
-                    luku = abs(luku)
-                    for ii in range(7-luku):
-                        if self.pelipoyta[0+ii][6-luku-ii] == 0:
-                            laskuri_1 = 0
-                            laskuri_2 = 0
-                        if self.pelipoyta[0+ii][6-luku-ii] == 1:
-                            laskuri_1 += 1
-                            laskuri_2 = 0
-                            if laskuri_1 == 4:
-                                return True,1
-                        if self.pelipoyta[0+ii][6-luku-ii] == 2:
-                            laskuri_1 = 0
-                            laskuri_2 += 1
-                            if laskuri_2 == 4:
-                                return True,2
-                else:
-                    for ii in range(7-luku):
-                        if self.pelipoyta[luku+ii][6-ii] == 0:
-                            laskuri_1 = 0
-                            laskuri_2 = 0
-                        if self.pelipoyta[luku+ii][6-ii] == 1:
-                            laskuri_1 += 1
-                            laskuri_2 = 0
-                            if laskuri_1 == 4:
-                                return True,1
-                        if self.pelipoyta[luku+ii][6-ii] == 2:
-                            laskuri_1 = 0
-                            laskuri_2 += 1
-                            if laskuri_2 == 4:
-                                return True,2
-        else:
-            return False,0
             
-
-    def voitto_pystysuunnassa(self): 
-        for i in range(4):           # Käydään läpi pelipöydän 4 ylintä tasoa, koska vasta 4 rivillä voi olla 4 pystysuunnassa olevaa laattaa          
-            for ii in range(7):
-                laatta = self.pelipoyta[i][ii]
-                laskuri_1 = 0           # pidetään täällä tieto siitä onko 4 samaa laattaa pystysuunnassa pelaajalla 1
-                laskuri_2 = 0           # pidetään täällä tieto siitä onko 4 samaa laattaa pystysuunnassa pelaajalla 2
-                if laatta == 1:
-                    for y in range(4):
-                        if self.pelipoyta[i+y][ii] == 1:
-                            laskuri_1 += 1
-                            if laskuri_1 == 4:
-                                print("player 1 is the viiner")
-                                return True,1
-                        else:
-                            break
-                elif laatta == 2:
-                    for y in range(4):
-                        if self.pelipoyta[i+y][ii] == 2:
-                            laskuri_2 += 1
-                            if laskuri_2 == 4:
-                                print("player 2 is the viiner")
-                                return True,2
-                        else:
-                            break
-        else:                
-            return False,0
-
-
-    #Tarkistetaan onko voittoa saavutettu vaakasuunnassa, jos voitto löytyi palautetaan Tuple True,(pelaajan numero), jos ei löytynyt niin palautetaan Tuple (False,0)
-    def voitto_vaakasuunnassa(self):
-        for y in range(len(self.pelipoyta)):
-            jonossa_1 = 0
-            jonossa_2 = 0
-            for x in self.pelipoyta[y]:
-                if x == 0:
-                    jonossa_1 = 0
-                    jonossa_2 = 0
-                if x == 1:
-                    jonossa_1 += 1
-                    jonossa_2 = 0
-                elif x == 2:
-                    jonossa_2 += 1
-                    jonossa_1 = 0
-                if jonossa_1 == 4:
-                    print("pelaaja 1 on viineri")
-                    return True,1
-                if jonossa_2 == 4:
-                    print("pelaaja 2 on viineri")
-                    return True,2
-        return False,0
+            #self.tilanne = 3
+            self.voitto = True
+        elif tieto2[0]:
+            self.voittaja = tieto2[1]
+            print(f"Pelaaja {tieto2[1]} voitti! (pystysuunnassa)")
+            #self.tilanne = 3
+            
+            self.voitto = True
+        elif tieto3[0]:
+            self.voittaja = tieto3[1]
+            print(f"Pelaaja {tieto3[1]} voitti! (diagonaalissa)")
+            
+            #self.tilanne = 3
+            self.voitto = True
+        #self.voitto_diagonaalissa()
 
     def aseta_pala(self, koordinaatti):
         for i in range(6,-1,-1):
             if self.pelipoyta[i][koordinaatti] == 0:
-                self.pelipoyta[i][koordinaatti] = self.pelaaja #self.pelaaja #asetetaan self.pelaajaa vastaava laatta paikoilleen
+                self.pelipoyta[i][koordinaatti] = self.pelaajan_vuoro.get_vuoro() #self.pelaaja #asetetaan self.pelaajaa vastaava laatta paikoilleen
                 break
         else:
-            self.vaihda_pelaajan_vuoro()
+            self.pelaajan_vuoro.vaihda_vuoro()
         self.voiton_tarkastaja()
 
-        #paikka = 6
-        #if self.pelipoyta[paikka][koordinaatti] == 0:
-        #    self.pelipoyta[paikka][koordinaatti] = 
-        #else:
-        #    paikka -= 1
-        #    self.pelipoyta[paikka][koordinaatti] = self.pelaaja
+
 
     def paivita_pelipoyta(self, x_koordinaatti):
         x = str(x_koordinaatti)
@@ -194,20 +94,12 @@ class peli:
             #print(aito_x)
 
 
-    # Tällä vaihdetaan kumman pelaajan vuoro on asettaa laatta
-    def vaihda_pelaajan_vuoro(self):
-        if self.pelaaja == 1:
-            self.pelaaja = 2
-        elif self.pelaaja == 2:
-            self.pelaaja = 1
-
-
     def pelisiirto(self, koordinaatit):
         if koordinaatit[0] > 80 and koordinaatit[0] < 680:
             self.paivita_pelipoyta(koordinaatit[0])
         if koordinaatit[0] <= 80:
             self.paivita_pelipoyta(koordinaatit[0])
-        self.vaihda_pelaajan_vuoro()
+        self.pelaajan_vuoro.vaihda_vuoro()
         #print(koordinaatit)
 
 
@@ -217,7 +109,26 @@ class peli:
                 exit()
             if tapahtuma.type == pygame.MOUSEBUTTONDOWN:
                 if tapahtuma.button == 1:
-                    self.pelisiirto(tapahtuma.pos)
+                    if self.voitto:
+                        self.tilanne = 3
+                        self.napit(tapahtuma.pos)
+                    if self.tilanne == 1:
+                        self.napit(tapahtuma.pos)
+                        self.pelisiirto(tapahtuma.pos)
+                    elif self.tilanne == 2:
+                        self.napit(tapahtuma.pos)
+                        print(tapahtuma.pos)
+
+    def napit(self, koordinaatit):
+        if koordinaatit[0] > self.naytto.get_width()/7 and koordinaatit[0] < self.naytto.get_width()/7+150 and koordinaatit[1] > self.naytto.get_height()/7 and koordinaatit[1] < self.naytto.get_height()/7+50:
+            print("kek")
+            self.tyhjenna_poyta()
+            self.tilanne = 1
+            self.pelaajan_vuoro.set_vuoro(1)
+        if koordinaatit[0] > 450 and koordinaatit[0] < 650 and koordinaatit[1] > 30 and koordinaatit[1] < 80:
+            self.tilanne = 2
+            self.voitto = False
+        pass
 
     def silmukka(self):
         while True:
@@ -231,13 +142,35 @@ class peli:
 
 
     def piirra_naytto(self):
-        self.naytto.fill((20, 60, 200))
+        impact = pygame.font.SysFont('impact', 50)
+        impact_35 = pygame.font.SysFont('impact', 35)
+        palaa = impact_35.render('Päävalikkoon', True, (YELLOW))
+        if self.voitto:
+            vuoro = impact.render(f'Pelaaja {self.voittaja} voitti!', True, YELLOW)
+        elif self.tilanne == 1:
+            vuoro = impact.render(f'Pelaajan {self.pelaajan_vuoro.get_vuoro()} vuoro!', True, YELLOW)
 
-        for y in range(7):
-            for x in range(7):
-                ruutu = self.pelipoyta[y][x]
-                self.naytto.blit(self.kuvat[ruutu], (x * 100, y*100))
-        pygame.display.flip()
+        if self.tilanne == 1:
+            self.naytto.fill((20, 60, 200))
+            for y in range(7):
+                for x in range(7):
+                    ruutu = self.pelipoyta[y][x]
+                    self.naytto.blit(self.kuvat[ruutu], (x * 100, y*100+100))
+                    self.naytto.blit(vuoro, (10,20))
+                    self.naytto.blit(palaa, (450,30))
+                   # if self.tilanne == 3:
+                   #     voitto = impact.render(f'Pelaaja {self.pelaajan_vuoro.get_vuoro()} voitti!')
+                   #     self.naytto.blit(voitto, self.naytto.get_width()/2, self.naytto.get_height()/2)
+                    
+            pygame.display.flip()
+        
+        elif self.tilanne == 2:
+            self.naytto.fill((255,255,255))
+            s = pygame.font.SysFont('Impact',30)
+            pelaa = s.render('Pelaa', True, (0,0,0))
+            pygame.draw.rect(self.naytto, (0,200,30), (self.naytto.get_width()/7,self.naytto.get_height()/7,150,50))
+            self.naytto.blit(pelaa, (105,115))
+            pygame.display.flip()
 
 
 peli()

@@ -14,3 +14,6 @@
 
 [Määrittelydokumentti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Maarittelydokumentti.md)
 
+##### Testausdokumentti
+
+[Testausdokumentti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Testausdokumentti.md)

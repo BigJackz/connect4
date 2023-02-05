@@ -142,6 +142,12 @@ class vuoro():
     def set_vuoro(self, vuoro):
         self.vuoro = vuoro
     
+    def vaihda_vuoro(self):
+        if self.vuoro == 1:
+            self.vuoro = 2
+        elif self.vuoro == 2:
+            self.vuoro = 1
+
     # Tällä vaihdetaan kumman pelaajan vuoro on asettaa laatta
     def vaihda_vuoro(self):
         if self.vuoro == 1:

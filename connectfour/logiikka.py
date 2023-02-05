@@ -43,7 +43,8 @@ class voiton_tarkastaja():
                             laskuri_1 = 0
                             if laskuri_2 == 4:
                                 return True,2
-                
+                laskuri_1 = 0
+                laskuri_2 = 0
                 luku2 = i-3
                 if luku2 <= 0:
                     luku = abs(luku)

@@ -8,6 +8,7 @@ PAAVALIKKO_POS = (450,30)
 
 class peli:
     def __init__(self) -> None:
+        #pelin alustamiseen tarkoitetut muuttujat
         pygame.init()
         self.pelaajan_vuoro = vuoro()
         self.tilanne = 2
@@ -29,6 +30,7 @@ class peli:
         self.naytto = pygame.display.set_mode((self.leveys, self.korkeus))
         pygame.display.set_caption("Connect4")
 
+        #Täällä peli pysyy hengissä :)
         self.silmukka()
 
     #Tyhjentää pöydän
@@ -50,39 +52,40 @@ class peli:
         tieto = v.voitto_vaakasuunnassa(self.pelipoyta)
         tieto2 = v.voitto_pystysuunnassa(self.pelipoyta)
         tieto3 = v.voitto_diagonaalissa(self.pelipoyta)
+        #Print komennot debuggausta varten poistuu viimeistään viimeisessä versiossa
         for i in range(7):
             print(self.pelipoyta[i])
+        print("mogus")
+        #tietox[0] kertoo onko onko voitto saavutettu jos on arvona boolean True, muutoin False
+        #tietox[1] kertoo kumpi pelaajista on kyseessä saa arvon int joka on aluksi 0 ja vaihtuu joko arvoon 1 tai 2
+        #self.voitto kertoo onko peliä voitettu. Tämä hävittää mahdollisuuden jatkaa pelin pelaamista sen jälkeen kun jompi kumpi pelaajista on saavuttanut voiton
         if tieto[0]:
             self.voittaja = tieto[1]
             print(f"Pelaaja {tieto[1]} voitti! (vaakasuunnassa)")
-            
-            #self.tilanne = 3
             self.voitto = True
+
         elif tieto2[0]:
             self.voittaja = tieto2[1]
             print(f"Pelaaja {tieto2[1]} voitti! (pystysuunnassa)")
-            #self.tilanne = 3
-            
             self.voitto = True
+
         elif tieto3[0]:
             self.voittaja = tieto3[1]
             print(f"Pelaaja {tieto3[1]} voitti! (diagonaalissa)")
-            
-            #self.tilanne = 3
             self.voitto = True
-        #self.voitto_diagonaalissa()
 
+    #Tällä metodilla asetetaan pala oikeaan kohtaan ja vaihdetaan pelaajan vuoroa
     def aseta_pala(self, koordinaatti):
         for i in range(6,-1,-1):
             if self.pelipoyta[i][koordinaatti] == 0:
-                self.pelipoyta[i][koordinaatti] = self.pelaajan_vuoro.get_vuoro() #self.pelaaja #asetetaan self.pelaajaa vastaava laatta paikoilleen
+                self.pelipoyta[i][koordinaatti] = self.pelaajan_vuoro.get_vuoro() #asetetaan self.pelaajaa vastaava laatta paikoilleen
                 break
         else:
             self.pelaajan_vuoro.vaihda_vuoro()
         self.voiton_tarkastaja()
 
 
-
+    #pelipöydän päivittämiseen käytetty metodi
     def paivita_pelipoyta(self, x_koordinaatti):
         x = str(x_koordinaatti)
         aito_x = int(x[0])
@@ -93,7 +96,7 @@ class peli:
             self.aseta_pala(aito_x)
             #print(aito_x)
 
-
+    #Pelisiirto tarkistaa koordinaateista mihinkä kohtaan pelaaja on asettamassa laattaa ja asettaa sen siihen kohtaan x koordinaatteja 
     def pelisiirto(self, koordinaatit):
         if koordinaatit[0] > 80 and koordinaatit[0] < 680:
             self.paivita_pelipoyta(koordinaatit[0])
@@ -102,7 +105,7 @@ class peli:
         self.pelaajan_vuoro.vaihda_vuoro()
         #print(koordinaatit)
 
-
+    #tutkii jatkuvasti onko pelissä tapahtunut jotakin, jos on tehdään siihen liittyvät toimenpiteet
     def tutki_tapahtuma(self):
         for tapahtuma in pygame.event.get():
             if tapahtuma.type == pygame.QUIT:
@@ -119,6 +122,7 @@ class peli:
                         self.napit(tapahtuma.pos)
                         print(tapahtuma.pos)
 
+    #pelissä olevien nappien luonti
     def napit(self, koordinaatit):
         if koordinaatit[0] > self.naytto.get_width()/7 and koordinaatit[0] < self.naytto.get_width()/7+150 and koordinaatit[1] > self.naytto.get_height()/7 and koordinaatit[1] < self.naytto.get_height()/7+50:
             print("kek")
@@ -130,17 +134,19 @@ class peli:
             self.voitto = False
         pass
 
+    #Pelin elossa pitävä silmukka
     def silmukka(self):
         while True:
             self.tutki_tapahtuma()
             self.piirra_naytto()
 
+    #Ladataan pelissä käytettävät kuvat
     def lataa_kuvat(self):
         self.kuvat = []
         for kuva in ["tyhja", "ismo", "seppo"]:
             self.kuvat.append(pygame.image.load(kuva + ".png"))
 
-
+    #Näytön päivittämiseen käytettävä metodi
     def piirra_naytto(self):
         impact = pygame.font.SysFont('impact', 50)
         impact_35 = pygame.font.SysFont('impact', 35)
@@ -158,9 +164,7 @@ class peli:
                     self.naytto.blit(self.kuvat[ruutu], (x * 100, y*100+100))
                     self.naytto.blit(vuoro, (10,20))
                     self.naytto.blit(palaa, (450,30))
-                   # if self.tilanne == 3:
-                   #     voitto = impact.render(f'Pelaaja {self.pelaajan_vuoro.get_vuoro()} voitti!')
-                   #     self.naytto.blit(voitto, self.naytto.get_width()/2, self.naytto.get_height()/2)
+
                     
             pygame.display.flip()
         

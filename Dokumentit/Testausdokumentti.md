@@ -1,0 +1,1 @@
+![Kattavuusraportti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/testikattavuus%205.2.2023.png)

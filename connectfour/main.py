@@ -15,15 +15,15 @@ class peli:
         self.voittaja = 0
         self.voitto = False
         self.pelipoyta = [
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0], 
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0]
+            
         ]
-        self.korkeus = 780
+        self.korkeus = 680
         self.leveys = 680
         self.lataa_kuvat()
 
@@ -41,7 +41,6 @@ class peli:
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0]
         ]
 
@@ -53,7 +52,7 @@ class peli:
         tieto2 = v.voitto_pystysuunnassa(self.pelipoyta)
         tieto3 = v.voitto_diagonaalissa(self.pelipoyta)
         #Print komennot debuggausta varten poistuu viimeistään viimeisessä versiossa
-        for i in range(7):
+        for i in range(6):
             print(self.pelipoyta[i])
         print("mogus")
         #tietox[0] kertoo onko onko voitto saavutettu jos on arvona boolean True, muutoin False
@@ -76,7 +75,7 @@ class peli:
 
     #Tällä metodilla asetetaan pala oikeaan kohtaan ja vaihdetaan pelaajan vuoroa
     def aseta_pala(self, koordinaatti):
-        for i in range(6,-1,-1):
+        for i in range(5,-1,-1):
             if self.pelipoyta[i][koordinaatti] == 0:
                 self.pelipoyta[i][koordinaatti] = self.pelaajan_vuoro.get_vuoro() #asetetaan self.pelaajaa vastaava laatta paikoilleen
                 break
@@ -158,7 +157,7 @@ class peli:
 
         if self.tilanne == 1:
             self.naytto.fill((20, 60, 200))
-            for y in range(7):
+            for y in range(6):
                 for x in range(7):
                     ruutu = self.pelipoyta[y][x]
                     self.naytto.blit(self.kuvat[ruutu], (x * 100, y*100+100))
@@ -172,8 +171,13 @@ class peli:
             self.naytto.fill((255,255,255))
             s = pygame.font.SysFont('Impact',30)
             pelaa = s.render('Pelaa', True, (0,0,0))
+            poistu = s.render('Poistu', True, (0,0,0))
             pygame.draw.rect(self.naytto, (0,200,30), (self.naytto.get_width()/7,self.naytto.get_height()/7,150,50))
+            
+            pygame.draw.rect(self.naytto,(0,200,30), (self.naytto.get_width()/7,self.naytto.get_height()/2 - 200,150,50))
+            
             self.naytto.blit(pelaa, (105,115))
+            self.naytto.blit(poistu, (105,315))
             pygame.display.flip()
 
 

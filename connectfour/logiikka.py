@@ -5,8 +5,11 @@ class voiton_tarkastaja():
         pass
 
     #Tarkistaa onko voittoa saavutettu diagonaalissa
+    #Diagonaalin tarkistamisessa ilmenee vielä jokin bugi joka sitten vaikuttaa myös minimaxin toimintaan sillä se hyödyntää näitä metodeja
     def voitto_diagonaalissa(self, taulukko):
         for x in range(7):
+            laskuri_1 = 0
+            laskuri_2 = 0           
             if taulukko[2][x] != 0: #tarkistetaan onko kolmannella rivillä muuta arvoa kuin 0 jos ei, niin ei ole mahdollista voittaa diagonaalissa
                 laskuri_1 = 0
                 laskuri_2 = 0
@@ -17,170 +20,105 @@ class voiton_tarkastaja():
                         if taulukko[i][i] == 0:
                             laskuri_1 = 0
                             laskuri_2 = 0
-                        if taulukko[i][i] == 1:
+                        elif taulukko[i][i] == 1:
                             laskuri_1 += 1
                             laskuri_2 = 0
                             if laskuri_1 == 4:
                                 return True,1
-                        if taulukko[i][i] == 2:
+                        elif taulukko[i][i] == 2:
                             laskuri_2 += 1
                             laskuri_1 = 0
                             if laskuri_2 == 4:
                                 return True,2
+                laskuri_1 = 0
+                laskuri_2 = 0
                 if luku > 0:
                     for i in range(6-luku):
                         if taulukko[luku+i][i] == 0:
                             laskuri_1 = 0
                             laskuri_2 = 0
-                        if taulukko[luku+i][i] == 1:
+                        elif taulukko[luku+i][i] == 1:
                             laskuri_1 += 1
                             laskuri_2 = 0
                             if laskuri_1 == 4:
                                 return True,1
-                        if taulukko[luku+i][i] == 2:
+                        elif taulukko[luku+i][i] == 2:
                             laskuri_2 += 1
                             laskuri_1 = 0
                             if laskuri_2 == 4:
                                 return True,2
+                laskuri_1 = 0
+                laskuri_2 = 0
                 if luku < 0:
                     luku = abs(luku)
                     for i in range(7-luku):
                         if taulukko[i][luku+i] == 0:
                             laskuri_1 = 0
                             laskuri_2 = 0
-                        if taulukko[i][luku+i] == 1:
+                        elif taulukko[i][luku+i] == 1:
                             laskuri_1 += 1
                             laskuri_2 = 0
                             if laskuri_1 == 4:
                                 return True,1
-                        if taulukko[i][luku+i] == 2:
+                        elif taulukko[i][luku+i] == 2:
                             laskuri_2 += 1
                             laskuri_1 = 0
                             if laskuri_2 == 4:
                                 return True,2
+                laskuri_1 = 0
+                laskuri_2 = 0
                 if luku2 == 6:
                     for i in range(6):
                         if taulukko[i][luku2-i] == 0:
                             laskuri_1 = 0
                             laskuri_2 = 0
-                        if taulukko[i][luku2-i] == 1:
+                        elif taulukko[i][luku2-i] == 1:
                             laskuri_1 += 1
                             laskuri_2 = 0
                             if laskuri_1 == 4:
                                 return True,1
-                        if taulukko[i][luku2-i] == 2:
+                        elif taulukko[i][luku2-i] == 2:
                             laskuri_2 += 1
                             laskuri_1 = 0
                             if laskuri_2 == 4:
                                 return True,2
+                laskuri_1 = 0
+                laskuri_2 = 0
                 if luku2 > 6:
                     luku2 = luku2 - 6
                     for i in range(6-luku2):
                         if taulukko[luku2+i][6-i] == 0:
                             laskuri_1 = 0
                             laskuri_2 = 0
-                        if taulukko[luku2+i][6-i] == 1:
+                        elif taulukko[luku2+i][6-i] == 1:
                             laskuri_1 += 1
                             laskuri_2 = 0
                             if laskuri_1 == 4:
                                 return True,1
-                        if taulukko[luku2+i][6-i] == 2:
+                        elif taulukko[luku2+i][6-i] == 2:
                             laskuri_2 += 1
                             laskuri_1 = 0
                             if laskuri_2 == 4:
                                 return True,2
+                laskuri_1 = 0
+                laskuri_2 = 0
                 if luku2 < 6:
                     for i in range(luku2+1):
                         if taulukko[i][luku2-i] == 0:
                             laskuri_1 = 0
                             laskuri_2 = 0
-                        if taulukko[i][luku2-i] == 1:
+                        elif taulukko[i][luku2-i] == 1:
                             laskuri_1 += 1
                             laskuri_2 = 0
                             if laskuri_1 == 4:
                                 return True,1
-                        if taulukko[i][luku2-i] == 2:
+                        elif taulukko[i][luku2-i] == 2:
                             laskuri_2 += 1
                             laskuri_1 = 0
                             if laskuri_2 == 4:
                                 return True,2
-                    
         return False,0
                         
-                        
-    #    for i in range(6):
-    #        laskuri_1 = 0
-    #        laskuri_2 = 0
-    #        if taulukko[3][i] != 0:   #tarkistetaan onko neljännellä rivillä muuta arvoa kuin 0 jos ei, niin ei ole mahdollista voittaa diagonaalissa
-    #            luku = i-3
-    #            if luku < 0:
-    #                luku = abs(luku)
-    #                for ii in range(6-luku):
-    #                    if taulukko[luku+ii][0+ii] == 0:
-    #                        laskuri_1 = 0
-    #                        laskuri_2 = 0
-    #                    elif taulukko[luku+ii][0+ii] == 1:
-    #                        laskuri_1 += 1
-    #                        laskuri_2 = 0
-    #                        if laskuri_1 == 4:
-    #                            return True,1
-    #                    elif taulukko[luku+ii][0+ii] == 2:
-    #                        laskuri_2 += 1
-    #                        laskuri_1 = 0
-    #                        if laskuri_2 == 4:
-    #                            return True,2
-#
-    #            else:
-    #                for ii in range(6-luku):
-    #                    if taulukko[0+ii][luku+ii] == 0:
-    #                        laskuri_1 = 0
-    #                        laskuri_2 = 0
-    #                    if taulukko[0+ii][luku+ii] == 1:
-    #                        laskuri_1 += 1
-    #                        laskuri_2 = 0
-    #                        if laskuri_1 == 4:
-    #                            return True,1
-    #                    if taulukko[0+ii][luku+ii] == 2:
-    #                        laskuri_2 += 1
-    #                        laskuri_1 = 0
-    #                        if laskuri_2 == 4:
-    #                            return True,2
-    #            laskuri_1 = 0
-    #            laskuri_2 = 0
-    #            luku2 = i-3
-    #            if luku2 <= 0:
-    #                luku = abs(luku)
-    #                for ii in range(6-luku):
-    #                    if taulukko[0+ii][6-luku-ii] == 0:
-    #                        laskuri_1 = 0
-    #                        laskuri_2 = 0
-    #                    if taulukko[0+ii][6-luku-ii] == 1:
-    #                        laskuri_1 += 1
-    #                        laskuri_2 = 0
-    #                        if laskuri_1 == 4:
-    #                            return True,1
-    #                    if taulukko[0+ii][6-luku-ii] == 2:
-    #                        laskuri_1 = 0
-    #                        laskuri_2 += 1
-    #                        if laskuri_2 == 4:
-    #                            return True,2
-    #            else:
-    #                for ii in range(6-luku):
-    #                    if taulukko[luku+ii][6-ii] == 0:
-    #                        laskuri_1 = 0
-    #                        laskuri_2 = 0
-    #                    if taulukko[luku+ii][6-ii] == 1:
-    #                        laskuri_1 += 1
-    #                        laskuri_2 = 0
-    #                        if laskuri_1 == 4:
-    #                            return True,1
-    #                    if taulukko[luku+ii][6-ii] == 2:
-    #                        laskuri_1 = 0
-    #                        laskuri_2 += 1
-    #                        if laskuri_2 == 4:
-    #                            return True,2
-    #    else:
-    #        return False,0
         
     #Tarkistetaan onko voittoa saavutettu vaakasuunnassa, jos voitto löytyi palautetaan 
     #Tuple True,(pelaajan numero), jos ei löytynyt niin palautetaan Tuple (False,0)
@@ -199,10 +137,8 @@ class voiton_tarkastaja():
                     jonossa_2 += 1
                     jonossa_1 = 0
                 if jonossa_1 == 4:
-                    print("pelaaja 1 on viineri")
                     return True,1
                 if jonossa_2 == 4:
-                    print("pelaaja 2 on viineri")
                     return True,2
         return False,0
 
@@ -227,8 +163,20 @@ class voiton_tarkastaja():
                         return True,1
                     if laskuri_2 == 4:
                         return True,2
-        else:
-            return False,0
+        
+        return False,0
+    
+    def onko_voittoa(self, taulukko):
+        onko1 = self.voitto_diagonaalissa(taulukko)
+        onko2 = self.voitto_pystysuunnassa(taulukko)
+        onko3 = self.voitto_vaakasuunnassa(taulukko)
+        if onko1[0]:
+            return onko1
+        if onko2[0]:
+            return onko2
+        if onko3[0]:
+            return onko3
+        return False,0
                
 #vuoroa käsittelevä luokka
 class vuoro():

@@ -10,11 +10,10 @@ class TestVoitto(unittest.TestCase):
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0]
+            
         ]
         self.poyta1 = [
-            [1,2,1,2,1,2,1],
             [2,1,2,1,2,1,2],
             [0,0,0,0,0,0,0],
             [1,2,1,2,1,2,1],
@@ -25,7 +24,6 @@ class TestVoitto(unittest.TestCase):
         self.poyta2 = [
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
             [0,0,0,2,0,0,0],
             [0,0,0,2,0,0,0],
             [1,0,0,2,0,0,0],
@@ -34,23 +32,20 @@ class TestVoitto(unittest.TestCase):
         self.poyta3 = [
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,1],
             [0,1,1,1,1,0,1],
             [0,2,1,2,2,0,1],
             [0,1,2,1,2,0,1]
         ]
         self.poyta4 = [
-            [2,1,1,2,2,2,2],
             [1,2,2,1,2,1,1],
             [1,2,1,2,1,2,1],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0]
+            [0,2,2,2,2,0,0]
         ]
         self.poyta5 = [
-            [1,0,1,0,1,0,0],
             [0,1,0,0,1,0,0],
             [1,0,1,0,1,0,0],
             [0,0,0,0,0,0,0],
@@ -59,7 +54,6 @@ class TestVoitto(unittest.TestCase):
             [0,1,1,0,1,0,1]
         ]
         self.poyta6 = [
-            [0,0,0,0,0,0,0],
             [0,0,0,2,0,0,0],
             [1,0,0,0,0,0,0],
             [0,1,0,0,0,0,0],
@@ -70,11 +64,10 @@ class TestVoitto(unittest.TestCase):
         self.poyta7 = [
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,2],
-            [0,1,0,0,0,2,0],
-            [1,1,0,0,2,0,0],
-            [0,0,0,2,0,0,0]
+            [0,1,0,0,0,2,1],
+            [1,1,0,0,2,1,1],
+            [0,0,0,2,1,2,1]
         ]
         self.v = voiton_tarkastaja()
 
@@ -90,7 +83,7 @@ class TestVoitto(unittest.TestCase):
     def test_ei_voittoa_vaakasuunnassa_koska_tyhja_pelipoyta(self):
         self.assertEqual(self.v.voitto_vaakasuunnassa(self.poyta), (False,0))
 
-    def test_voitto_vaakasuunnassa_rivillä_7_pelaajalla_2(self):
+    def test_voitto_vaakasuunnassa_rivillä_1_pelaajalla_2(self):
         self.assertEqual(self.v.voitto_vaakasuunnassa(self.poyta4), (True,2))
     
     def test_ei_voittoa_hamarassa_poydassa_vaakasuunnassa(self):

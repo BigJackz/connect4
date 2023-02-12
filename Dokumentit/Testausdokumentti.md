@@ -2,4 +2,4 @@
 
 Ohjelmassa on testattu pelilogiikkaa yksikkötesteillä, siten että sille syötetään valmiita tilanteita pelistä, joissa on mahdollinen voitto tai ei.
 
-Algoritmia ei toteutettu vielä, joten ei myöskään testattu.
+Minimax algoritmi toteutettu, mutta sitä ei ole vielä testattu.

@@ -8,7 +8,7 @@ Tarkoituksena olisi seuraavaksi saada bugi pois pelilogiikasta joka aiheuttaa v�
 Saatan myös uudellenkirjoittaa logiikan toimivuutta, jos keksin järkevämmän tavan toteuttaa sen.
 Toinen asia minkä ajattelin toteuttaa aika pian on vaikeusasteen valinta, joka perustuisi siihen, että tekoäly pelaa eri syvyisillä minimax-algoritmeilla.
 Testien tekemistäkin pitäisi jatkaa ja laajentaa ja laittaa automaattinen testaus toimimaan, sillä se valitettavasti jäi tekemättä.
-Tarkoitus olisi myös saada minimax-algoritmille testaus pystyyn.
+Tarkoitus olisi myös saada minimax-algoritmille testaus pystyyn. Sekä suorituskyky testaus, joka jäi tällä viikolla aloittamatta.
 
 Opin tällä viikolla minimax-algoritmin toiminnan perinpohjaisesti ja sen miten sitä sovelletaan erilaisissa peleissä.
 Minimaxin toteutus aiheutti jonkin verran ongelmia, mutta selvisin niistä onneksi viikon kuluessa.

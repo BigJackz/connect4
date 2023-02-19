@@ -1,17 +1,22 @@
 import pygame
 import sys
-from logiikka import voiton_tarkastaja
-from logiikka import vuoro
+from logiikka import VoitonTarkastaja
+from logiikka import Vuoro
 import random
 import math
+from minimax import Minimax
 
-
+BLACK = (0,0,0)
+WHITE = (255,255,255)
+BLUE = (20, 60, 200)
 YELLOW = (253,253,77)
-PAAVALIKKO_POS = (450,30)
 MENU = 2
 PELI = 1
 VOITTO = 3
-
+AI_VAIKEUSASTEEN_VALINTA = 4
+NOVIISI = 1
+ENNENKI = 3
+MESTARI = 6
 
 
 
@@ -19,11 +24,14 @@ class peli:
     def __init__(self) -> None:
         #pelin alustamiseen tarkoitetut muuttujat
         pygame.init()
+        self.impact = pygame.font.SysFont('Impact',50)
         self.AI_vuoro = False
         self.AI_peli = False
-        self.pelaajan_vuoro = vuoro()
-        self.voiton_tarkistaja = voiton_tarkastaja()
-        self.tilanne = 2
+        self.pelaajan_vuoro = Vuoro()
+        self.voiton_tarkistaja = VoitonTarkastaja()
+        self.minmax = Minimax()
+        self.vaikeusaste = NOVIISI
+        self.tilanne = MENU
         self.voittaja = 0
         self.voitto = False
         self.pelipoyta = [
@@ -121,6 +129,7 @@ class peli:
             if tapahtuma.type == pygame.QUIT:
                 exit()
             if tapahtuma.type == pygame.MOUSEBUTTONDOWN:
+
                 if tapahtuma.button == 1:
                     if self.voitto:
                         self.tilanne = VOITTO
@@ -129,15 +138,19 @@ class peli:
                         self.napit(tapahtuma.pos)
                         sarake = self.sarake_koordinaateista(tapahtuma.pos)
                         self.pelisiirto(sarake)
-                        print(self.loppu(self.pelipoyta))
-                    elif self.tilanne == MENU:
+                    if self.tilanne == MENU:
                         self.napit(tapahtuma.pos)
                         print(tapahtuma.pos)
+                    elif self.tilanne == AI_VAIKEUSASTEEN_VALINTA:
+                        self.vaikeusaste_napit(tapahtuma.pos)
+                        print(tapahtuma.pos)
+                    
+                    
 
     #pelissä olevien nappien luonti
     def napit(self, koordinaatit):
         #nappi jolla aloitetaan 1vs1 peli
-        if koordinaatit[0] > self.naytto.get_width()/7 and koordinaatit[0] < self.naytto.get_width()/7+150 and koordinaatit[1] > self.naytto.get_height()/7 and koordinaatit[1] < self.naytto.get_height()/7+50 and self.tilanne == MENU:
+        if koordinaatit[0] > 105 and koordinaatit[0] < 220 and koordinaatit[1] > 120 and koordinaatit[1] < 166 and self.tilanne == MENU:
             self.voitto = False
             self.AI_peli = False
             self.tyhjenna_poyta()
@@ -150,18 +163,36 @@ class peli:
             self.AI_peli = False
             self.pelaajan_vuoro.set_vuoro(1)
             self.tyhjenna_poyta()
-        #nappi jolla aloitetaan peli ai:n kanssa 
-        if koordinaatit[0] > 90 and koordinaatit[0] < 400 and koordinaatit[1] > 300 and koordinaatit[1] < 350 and self.tilanne == MENU:
-            self.pelaajan_vuoro.set_vuoro(1)
-            self.voitto = False
-            self.tyhjenna_poyta()
-            self.tilanne = PELI
-            self.AI_peli = True
-            #self.pelaajan_vuoro.set_vuoro(random.randint(1,2))
+        #nappi jolla aloitetaan peli ai:n kanssa
+        if koordinaatit[0] > 90 and koordinaatit[0] < 550 and koordinaatit[1] > 300 and koordinaatit[1] < 366 and self.tilanne == MENU:
+            self.tilanne = AI_VAIKEUSASTEEN_VALINTA
+            #pygame.time.wait(500)
+
         #nappi jolla poistutaan pelistä
-        if koordinaatit[0] > 105 and koordinaatit[0] < 180 and koordinaatit[1] > 520 and koordinaatit[1] < 545 and self.tilanne == MENU:
+        if koordinaatit[0] > 105 and koordinaatit[0] < 235 and koordinaatit[1] > 520 and koordinaatit[1] < 566 and self.tilanne == MENU:
             quit()
-        pass
+
+    def vaikeusaste_napit(self, koordinaatit):
+        #noviisi asettaa minimax syvyyden arvoon 1
+        if koordinaatit[0] > 105 and koordinaatit[0] < 244 and koordinaatit[1] > 120 and koordinaatit[1] < 166:
+            self.vaikeusaste = NOVIISI
+            self.pelin_alustaminen_ai_vastaan()
+        #Ennenki pelannu asettaa minimax syvyyden arvoon 3
+        if koordinaatit[0] > 90 and koordinaatit[0] < 444 and koordinaatit[1] > 300 and koordinaatit[1] < 365:
+            self.vaikeusaste = ENNENKI
+            self.pelin_alustaminen_ai_vastaan()
+        #Mestari asettaa minimax syvyyden arvoon 6
+        if koordinaatit[0] > 105 and koordinaatit[0] < 262 and koordinaatit[1] > 520 and koordinaatit[1] < 566:
+            self.vaikeusaste = MESTARI
+            self.pelin_alustaminen_ai_vastaan()
+
+    #Alustaa pelin AI:ta vastaan
+    def pelin_alustaminen_ai_vastaan(self):
+        self.pelaajan_vuoro.set_vuoro(1)
+        self.voitto = False
+        self.tyhjenna_poyta()
+        self.tilanne = PELI
+        self.AI_peli = True
 
     #tarkistaa onko ylimmällä rivillä kyseisellä sarakkellaa 0 jos on niin sinne voi vielä asettaa laatan
     def voi_asettaa(self, sarake, taulukko):
@@ -170,153 +201,18 @@ class peli:
         else:
             return False
 
-    #annetaan pisteitä siitä kuinka hyvä pelitilanne on pelaajalle 2 eli AI:lle
-    def pisteet_rivista(self, tarkastettava, laatta):
-        pelaajan_laatta = 1
-        pisteet = 0
-        if tarkastettava.count(laatta) == 4:
-            pisteet += 150 
-        elif tarkastettava.count(laatta) == 3 and tarkastettava.count(0) == 1:
-            pisteet += 20
-        elif tarkastettava.count(laatta) == 2 and tarkastettava.count(0) == 2:
-            pisteet += 10
-
-        if tarkastettava.count(pelaajan_laatta) == 3 and tarkastettava.count(0) == 1:
-            pisteet -= 100
-            
-        return pisteet
-        
-
-    #Annetaan enemmän pisteitä mitä edullisempi tilanne on tekoälyn kannalta
-    def pisteyta(self, poyta, laatta):
-        pisteet = 0
-        keski_sarake = [poyta[i][3] for i in range(4)]
-        keskella = keski_sarake.count(laatta)
-        pisteet += keskella * 5
-        
-        #pisteytys vaakasuunnassa otetaan 4 mittaisia rivejä ja katsotaan sitten montako laattaa pelaajalla 2 eli AI:lla on
-
-        for r in range(6):
-            rivi_lista = [i for i in (poyta[r])]
-            for s in range(4):
-                tarkastettava = rivi_lista[s:s+4]
-                pisteet += self.pisteet_rivista(tarkastettava, laatta)
-
-        #pisteytys pystysuunnassa samalla tavalla kuin vaakasuunnassa
-        for s in range(7):
-            sarake_lista = []
-            for r in range(6):
-                sarake_lista.append(poyta[r][s])
-            for r in range(3):
-                tarkastettava = sarake_lista[r:r+4]
-                pisteet += self.pisteet_rivista(tarkastettava, laatta)
-
-        #pisteytys diagonaalissa samalla tavalla kuin 2 aikaisempaa
-        for r in range(3):
-            for s in range(4):
-                tarkastettava = [poyta[r+i][s+i] for i in range(4)]
-                pisteet += self.pisteet_rivista(tarkastettava, laatta)
-
-        for r in range(3):
-            for s in range(4):
-                tarkastettava = [poyta[r+3-i][s+i] for i in range(4)]
-                pisteet += self.pisteet_rivista(tarkastettava, laatta)
-
-        return pisteet
-
-    def loppu(self, poyta):
-        return self.voiton_tarkistaja.onko_voittoa(poyta)[0] or len(self.mahdolliset_sarakkeet(self.pelipoyta)) == 0
-
-
-    #minimax algoritmin toteutus pelaaja on pelaaja 1 ja tekoäly pelaaja 2
-    def minimax(self, poyta, syvyys, a, b, maxPelaaja):
-        mahdolliset = self.mahdolliset_sarakkeet(poyta)
-        on_loppu = self.loppu(poyta)
-        if syvyys == 0 or on_loppu:
-            if on_loppu:
-                if self.voiton_tarkistaja.onko_voittoa(poyta)[1] == 2:
-                    print("2 pelaajalla voitto")
-                    return None, 100000000
-                elif self.voiton_tarkistaja.onko_voittoa(poyta)[1] == 1:
-                    print("1 pelaajalla voitto")
-                    return None, -100000000
-                else:
-                    return None, 0
-            else:
-                return None, self.pisteyta(poyta, 2)
-        #maksivoivan pelaajan vuoro
-        if maxPelaaja:
-            pisteet = -math.inf
-            sarake = random.choice(mahdolliset)
-            for s in mahdolliset:
-                rivi = self.seuraava_avoin_paikka(poyta, s)
-                uusi_poyta = []
-                #kopioi uuden pöydän
-                for i in range(6):
-                    uusi_poyta.append(poyta[i].copy())
-                self.aseta_pala_taulukkoon(uusi_poyta, 2, rivi, s)
-                uudet_pisteet = self.minimax(uusi_poyta, syvyys-1, a, b, False)[1]
-                if uudet_pisteet > pisteet:
-                    pisteet = uudet_pisteet
-                    sarake = s
-                #alpha beeta karsinta
-                a = max(a, pisteet)
-                if a >= b:
-                    break                
-            return sarake, pisteet
-        #Minimoivan pelaajan vuoro
-        else:
-            pisteet = math.inf
-            sarake = random.choice(mahdolliset)
-            for s in mahdolliset:
-                rivi = self.seuraava_avoin_paikka(poyta, s)
-                uusi_poyta = []
-                #kopioi uuden pöydän 
-                for i in range(6):
-                    uusi_poyta.append(poyta[i].copy())
-                self.aseta_pala_taulukkoon(uusi_poyta, 1, rivi, s)
-                uudet_pisteet = self.minimax(uusi_poyta, syvyys-1, a, b, True)[1]
-                if uudet_pisteet < pisteet:
-                    pisteet = uudet_pisteet
-                    sarake = s
-                #alpha beeta karsinta
-                b = min(b, pisteet)
-                if a >= b:
-                    break
-            return sarake, pisteet
-
-    #asettaa palan kyseiseen kohtaan käytetään minimaxin toteutuksessa
-    def aseta_pala_taulukkoon(self, taulukko, laatta, rivi, sarake):
-        taulukko[rivi][sarake] = laatta
-
-    #palauttaa kaikkien sarakkeiden numerot jonne voidaan vielä lisätä laatta eli ne jotka eivät ole täynnä
-    def mahdolliset_sarakkeet(self, taulukko):
-        mahdolliset = []
-        for sarake in range(7):
-            if self.voi_asettaa(sarake, taulukko):
-                mahdolliset.append(sarake)
-        return mahdolliset
-            
     #AI:n peliliikkeen toteuttaminen
     def AI_peliliike(self):
-        paras_kohta, pisteet = self.minimax(self.pelipoyta, 5, -math.inf, math.inf, True)
-        print("parempi kohta ", paras_kohta)
+        paras_kohta, pisteet = self.minmax.minimax(self.pelipoyta, self.vaikeusaste, -math.inf, math.inf, True)
         if self.voi_asettaa(paras_kohta, self.pelipoyta):
             self.pelisiirto(paras_kohta)
             self.AI_vuoro = False
 
-    #etsii seuraavan tyhjän paikan pöydältä poyta
-    def seuraava_avoin_paikka(self, poyta, sarake):
-        for r in range(5,-1,-1):
-            if poyta[r][sarake] == 0:
-                return r
-
     #Pelin elossa pitävä silmukka
     def silmukka(self):
         while True:
-            if self.AI_vuoro and self.AI_peli and not self.voitto:
+            if self.AI_vuoro and self.AI_peli and not self.voitto and self.pelaajan_vuoro.get_vuoro() == 2:
                 self.AI_peliliike()
-                self.tutki_tapahtuma()
             else:
                 self.tutki_tapahtuma()
             self.piirra_naytto()
@@ -329,40 +225,56 @@ class peli:
 
     #Näytön päivittämiseen käytettävä metodi
     def piirra_naytto(self):
-        impact = pygame.font.SysFont('impact', 50)
+        self.piirra_pelitilanne()
+        if self.tilanne == MENU:
+            self.piirra_menu()
+        if self.tilanne == AI_VAIKEUSASTEEN_VALINTA:
+            self.piirra_sepon_vaikeusasteet_menu()
+    
+    def piirra_pelitilanne(self):
         impact_35 = pygame.font.SysFont('impact', 35)
         palaa = impact_35.render('Päävalikkoon', True, (YELLOW))
         if self.voitto:
-            vuoro = impact.render(f'Pelaaja {self.voittaja} voitti!', True, YELLOW)
+            if self.AI_peli and self.voittaja == 2:
+                vuoro = self.impact.render(f"Seppo voitti!", True, YELLOW)
+            elif self.AI_peli and self.voittaja == 1:
+                vuoro = self.impact.render(f"Voitit Sepon!", True, YELLOW)
+            else:
+                vuoro = self.impact.render(f'Pelaaja {self.voittaja} voitti!', True, YELLOW)
         elif self.tilanne == PELI:
-            vuoro = impact.render(f'Pelaajan {self.pelaajan_vuoro.get_vuoro()} vuoro!', True, YELLOW)
+            vuoro = self.impact.render(f'Pelaajan {self.pelaajan_vuoro.get_vuoro()} vuoro!', True, YELLOW)
 
         if self.tilanne == PELI:
-            self.naytto.fill((20, 60, 200))
+            self.naytto.fill(BLUE)
             for y in range(6):
                 for x in range(7):
                     ruutu = self.pelipoyta[y][x]
                     self.naytto.blit(self.kuvat[ruutu], (x * 100, y*100+100))
                     self.naytto.blit(vuoro, (10,20))
                     self.naytto.blit(palaa, (450,30))
+            pygame.display.flip()
 
-                    
-            pygame.display.flip()
-        
-        elif self.tilanne == MENU:
-            self.naytto.fill((255,255,255))
-            s = pygame.font.SysFont('Impact',30)
-            pelaa = s.render('Pelaa', True, (0,0,0))
-            poistu = s.render('Poistu', True, (0,0,0))
-            ai_peli = s.render('Pelaa tekoälyä vastaan', True, (0,0,0))
-            #pygame.draw.rect(self.naytto, (0,200,30), (self.naytto.get_width()/7,self.naytto.get_height()/7,150,50))
-            
-            #pygame.draw.rect(self.naytto,(0,200,30), (self.naytto.get_width()/7,self.naytto.get_height()/2 - 200,150,50))
-            
-            self.naytto.blit(pelaa, (105,115))
-            self.naytto.blit(poistu, (105,515))
-            self.naytto.blit(ai_peli, (105,315))
-            pygame.display.flip()
+    #Käytetään sepon vaikeusaste menun piirtämiseen
+    def piirra_sepon_vaikeusasteet_menu(self):
+        self.naytto.fill(WHITE)
+        taso1 = self.impact.render('Noviisi', True, BLACK)
+        taso2 = self.impact.render('Ennenki pelannu', True, BLACK)
+        taso3 = self.impact.render('Mestari', True, BLACK)
+        self.naytto.blit(taso1, (105,115))
+        self.naytto.blit(taso2, (105,315))
+        self.naytto.blit(taso3, (105,515))
+        pygame.display.flip()
+
+    #Käytetään menun piirtämiseen
+    def piirra_menu(self):
+        self.naytto.fill(WHITE)
+        pelaa = self.impact.render('Pelaa', True, BLACK)
+        poistu = self.impact.render('Poistu', True, BLACK)
+        ai_peli = self.impact.render('Pelaa Seppoa vastaan', True, BLACK)
+        self.naytto.blit(pelaa, (105,115))
+        self.naytto.blit(poistu, (105,515))
+        self.naytto.blit(ai_peli, (105,315))
+        pygame.display.flip()
 
 
 peli()

@@ -12,6 +12,8 @@
 
 [Viikkoraportti4](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Viikkoraportit/viikkoraportti4.md)
 
+[Viikkoraportti5](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Viikkoraportit/viikkoraportti5.md)
+
 ##### Määrittelydokumentti
 
 [Määrittelydokumentti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Maarittelydokumentti.md)

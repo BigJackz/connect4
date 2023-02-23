@@ -30,18 +30,6 @@ class UI:
         self.silmukka()
 
 
-    #Tällä metodilla asetetaan pala oikeaan kohtaan ja vaihdetaan pelaajan vuoroa
-    def aseta_pala(self, sarake):
-        self.peli.aseta_pala(sarake)
-
-
-    #Pelisiirto tarkistaa koordinaateista mihinkä kohtaan pelaaja on asettamassa laattaa ja asettaa sen siihen kohtaan x koordinaatteja 
-    def pelisiirto(self, sarake):
-        self.peli.pelisiirto(sarake)
-        self.peli.piirra_poyta()
-        self.peli.voiton_tarkastaja()
-
-
     #tutkii jatkuvasti onko pelissä tapahtunut jotakin, jos on tehdään siihen liittyvät toimenpiteet
     def tutki_tapahtuma(self):
         for tapahtuma in pygame.event.get():
@@ -53,13 +41,17 @@ class UI:
                     if self.peli.palauta_onko_voittoa():
                         self.peli.aseta_tilanne(VOITTO)
                         self.napit(tapahtuma.pos)
+                        
                     if self.peli.palauta_tilanne() == PELI:
                         self.napit(tapahtuma.pos)
                         sarake = self.peli.sarake_koordinaateista(tapahtuma.pos)
-                        self.pelisiirto(sarake)
+                        self.peli.pelisiirto(sarake)
+                        self.peli.voiton_tarkastaja()
+
                     if self.peli.palauta_tilanne() == MENU:
                         self.napit(tapahtuma.pos)
                         print(tapahtuma.pos)
+
                     elif self.peli.palauta_tilanne() == AI_VAIKEUSASTEEN_VALINTA:
                         self.vaikeusaste_napit(tapahtuma.pos)
                         print(tapahtuma.pos)

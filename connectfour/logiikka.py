@@ -1,11 +1,10 @@
-
-
 class VoitonTarkastaja():
     def __init__(self) -> None:
         pass
 
     #Tarkistaa onko voittoa saavutettu diagonaalissa
     #Diagonaalin tarkistamisessa ilmenee vielä jokin bugi joka sitten vaikuttaa myös minimaxin toimintaan sillä se hyödyntää näitä metodeja
+    #En osaa sanoa onko bugi korjaantunut, mutta en ole myöskään saanut uudelleen toteutettua kyseistä bugia
     def voitto_diagonaalissa(self, taulukko):
         for x in range(7):
             laskuri_1 = 0
@@ -177,9 +176,43 @@ class VoitonTarkastaja():
         if onko3[0]:
             return onko3
         return False,0
-               
+
+    def voiton_tarkastaja(self, taulukko):
+        voittaja = 0
+        voitto = False
+        vaakasuunnassa = self.voitto_vaakasuunnassa(taulukko)
+        pystysuunnassa = self.voitto_pystysuunnassa(taulukko)
+        diagonaalissa = self.voitto_diagonaalissa(taulukko)
+        #Print komennot debuggausta varten poistuu viimeistään viimeisessä versiossa
+        #for i in range(6):
+        #    print(taulukko[i])
+        
+        #tietox[0] kertoo onko onko voitto saavutettu jos on arvona boolean True, muutoin False
+        #tietox[1] kertoo kumpi pelaajista on kyseessä saa arvon int joka on aluksi 0 ja vaihtuu joko arvoon 1 tai 2
+        #self.voitto kertoo onko peliä voitettu. Tämä hävittää mahdollisuuden jatkaa pelin pelaamista sen jälkeen kun jompi kumpi pelaajista on saavuttanut voiton
+        if vaakasuunnassa[0]:
+            voittaja = vaakasuunnassa[1]
+            print(f"Pelaaja {vaakasuunnassa[1]} voitti! (vaakasuunnassa)!")
+            voitto = True
+            return voittaja, voitto
+
+        elif pystysuunnassa[0]:
+            voittaja = pystysuunnassa[1]
+            print(f"Pelaaja {pystysuunnassa[1]} voitti! (pystysuunnassa)!")
+            voitto = True
+            return voittaja, voitto
+
+        elif diagonaalissa[0]:
+            voittaja = diagonaalissa[1]
+            print(f"Pelaaja {diagonaalissa[1]} voitti! (diagonaalissa)!")
+            voitto = True
+            return voittaja, voitto
+        
+        return None, None
+
+
 #vuoroa käsittelevä luokka
-class Vuoro():
+class Vuoro:
     def __init__(self) -> None:
         self.vuoro = 1
 

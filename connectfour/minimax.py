@@ -2,7 +2,7 @@ import random
 import math
 from logiikka import VoitonTarkastaja
 
-class Minimax():
+class Minimax:
     def __init__(self) -> None:
         self.voiton_tarkastaja = VoitonTarkastaja()
 

@@ -1,4 +1,5 @@
-class VoitonTarkastaja():
+
+class VoitonTarkastaja:
     def __init__(self) -> None:
         pass
 
@@ -192,19 +193,19 @@ class VoitonTarkastaja():
         #self.voitto kertoo onko peliä voitettu. Tämä hävittää mahdollisuuden jatkaa pelin pelaamista sen jälkeen kun jompi kumpi pelaajista on saavuttanut voiton
         if vaakasuunnassa[0]:
             voittaja = vaakasuunnassa[1]
-            print(f"Pelaaja {vaakasuunnassa[1]} voitti! (vaakasuunnassa)!")
+            print(f"Pelaaja {voittaja} voitti! (vaakasuunnassa)!")
             voitto = True
             return voittaja, voitto
 
         elif pystysuunnassa[0]:
             voittaja = pystysuunnassa[1]
-            print(f"Pelaaja {pystysuunnassa[1]} voitti! (pystysuunnassa)!")
+            print(f"Pelaaja {voittaja} voitti! (pystysuunnassa)!")
             voitto = True
             return voittaja, voitto
 
         elif diagonaalissa[0]:
             voittaja = diagonaalissa[1]
-            print(f"Pelaaja {diagonaalissa[1]} voitti! (diagonaalissa)!")
+            print(f"Pelaaja {voittaja} voitti! (diagonaalissa)!")
             voitto = True
             return voittaja, voitto
         
@@ -228,13 +229,7 @@ class Vuoro:
     def set_vuoro(self, vuoro):
         self.vuoro = vuoro
     
-    def vaihda_vuoro(self):
-        if self.vuoro == 1:
-            self.vuoro = 2
-        elif self.vuoro == 2:
-            self.vuoro = 1
-
-    # Tällä vaihdetaan kumman pelaajan vuoro on asettaa laatta
+    #Vaihtaa pelaajan vuoroa
     def vaihda_vuoro(self):
         if self.vuoro == 1:
             self.vuoro = 2

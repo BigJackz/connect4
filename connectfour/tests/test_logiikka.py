@@ -1,6 +1,6 @@
-from logiikka import voiton_tarkastaja
+from logiikka import VoitonTarkastaja
 import unittest
-from logiikka import vuoro
+from logiikka import Vuoro
 
 class TestVoitto(unittest.TestCase):
     def setUp(self) -> None:
@@ -69,7 +69,105 @@ class TestVoitto(unittest.TestCase):
             [1,1,0,0,2,1,1],
             [0,0,0,2,1,2,1]
         ]
-        self.v = voiton_tarkastaja()
+        self.poyta8 = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [1,0,0,0,0,0,0],
+            [1,1,1,2,2,2,2]
+        ]
+        self.poyta9 = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,1,0,0,0],
+            [0,0,0,1,0,0,0],
+            [2,0,0,1,0,0,0],
+            [2,2,2,1,0,2,2]
+        ]
+        self.diagonaalipoyta1 =[
+            [1,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,2,0,0,0,0],
+            [0,0,0,2,0,0,0],
+            [0,0,0,0,2,0,0],
+            [0,0,0,0,0,2,0],
+        ]
+        self.diagonaalipoyta2 = [
+            [1,0,0,0,0,0,0],
+            [0,1,0,0,0,0,0],
+            [0,0,1,0,0,0,0],
+            [0,0,0,1,0,0,0],
+            [0,0,0,0,2,0,0],
+            [0,0,0,0,0,2,0],
+        ]
+        self.diagonaalipoyta3 = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [2,1,0,0,0,0,0],
+            [0,2,0,0,0,0,0],
+            [0,0,2,0,0,0,0],
+            [0,0,0,2,0,0,0],
+        ]
+        self.diagonaalipoyta4 = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,1,0,0,0],
+            [0,0,0,0,1,0,0],
+            [0,0,0,0,0,1,0],
+            [0,0,0,0,0,0,1],
+        ]
+        self.diagonaalipoyta5 = [
+            [0,0,0,2,0,0,0],
+            [0,0,0,0,2,0,0],
+            [0,0,0,2,0,2,0],
+            [0,0,0,0,1,0,2],
+            [0,0,0,0,0,1,0],
+            [0,0,0,0,0,0,1],
+        ]
+        self.diagonaalipoyta6 = [
+            [0,0,0,0,0,0,1],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,2,0,0],
+            [0,0,0,2,0,0,0],
+            [0,0,2,0,0,0,0],
+            [0,2,0,0,0,0,0],
+        ]
+        self.diagonaalipoyta7 = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,1,0],
+            [0,0,0,0,1,0,0],
+            [0,0,0,1,0,0,0],
+            [0,0,1,0,0,0,0],
+            [0,2,0,0,0,0,0],
+        ]
+        self.diagonaalipoyta8 = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,1,0],
+            [0,0,0,0,1,0,0],
+            [0,0,0,1,0,0,0],
+            [0,0,1,0,0,0,0],
+        ]
+        self.diagonaalipoyta9 = [
+            [0,0,0,1,0,0,0],
+            [0,0,1,0,0,0,0],
+            [0,1,0,0,0,0,0],
+            [1,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+        ]
+        self.diagonaalipoyta10 = [
+            [0,0,0,0,0,2,0],
+            [0,0,1,0,2,0,0],
+            [0,1,0,2,0,0,0],
+            [1,0,2,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+        ]
+
+        self.v = VoitonTarkastaja()
+
 
     def test_voitto_vaakasuunnassa_voitto_alimalla_rivilla_pelaajalla_2(self):
         self.assertEqual(self.v.voitto_vaakasuunnassa(self.poyta2), (True,2))
@@ -113,19 +211,75 @@ class TestVoitto(unittest.TestCase):
     def test_voitto_diagonaalissa_pelaajalla_2(self):
         self.assertEqual(self.v.voitto_diagonaalissa(self.poyta7), (True,2))
 
+    def test_onko_voittoa_toimii_oikein_voitolla_diagonaalissa(self):
+        self.assertEqual(self.v.onko_voittoa(self.poyta7), (True, 2))
+
+    def test_onko_voittoa_toimii_oikein_voitolla_vaakasuunnassa(self):
+        self.assertEqual(self.v.onko_voittoa(self.poyta8), (True, 2))
+
+    def test_voiton_tarkastaja_toimii_oikein_voitolla_vaakasuunnassa(self):
+        self.assertEqual(self.v.voiton_tarkastaja(self.poyta8), (2, True))
+
+    def test_voiton_tarkastaja_toimii_oikein_voitolla_pystysuunnassa(self):
+        self.assertEqual(self.v.voiton_tarkastaja(self.poyta9), (1, True))
+
+    def test_voiton_tarkastaja_toimii_oikein_voitolla_diagonaalissa(self):
+        self.assertEqual(self.v.voiton_tarkastaja(self.poyta7), (2, True))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta1), (True, 2))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne2(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta2), (True, 1))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne3(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta3), (True, 2))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne4(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta4), (True, 1))
+    
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne5(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta5), (True, 2))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne6(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta6), (True, 2))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne7(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta7), (True, 1))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne8(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta8), (True, 1))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne9(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta9), (True, 1))
+
+    def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne10(self):
+        self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta10), (True, 2))
+
 class TestVuoro(unittest.TestCase):
     def setUp(self) -> None:
-        self.vuoro = vuoro()
-        return super().setUp()
+        self.vuoro = Vuoro()
     
-    def test_vuoron_vaihtaminen_toimii_oikein(self):
+    def test_vaihda_vuoro_toimii_oikein(self):
         self.vuoro.vaihda_vuoro()
+        self.assertEqual(self.vuoro.vuoro, 2)
+
+    def test_vaihda_vuoro_toimii_oikein_vaihtaen_vuorosta_2_vuoroon_1(self):
+        self.vuoro.vuoro = 2
         self.vuoro.vaihda_vuoro()
+        self.assertEqual(self.vuoro.vuoro, 1)
+
+    def test_get_vuoro_toimii_oikein(self):
         self.assertEqual(self.vuoro.get_vuoro(), 1)
 
-    def test_vuoron_get_vuoro_toimii_oikein(self):
-        self.assertEqual(self.vuoro.get_vuoro(), 1)
-
-    def test_vuoron_asettaminen_set_vuoro_toimii_oikein(self):
+    def test_set_vuoro_toimii_oikein(self):
         self.vuoro.set_vuoro(10)
         self.assertEqual(self.vuoro.get_vuoro(), 10)
+
+    def test_get_vuoro_nimi_toimii_oikein_jos_vuoro_1(self):
+        self.vuoro.vuoro = 1
+        self.assertEqual(self.vuoro.get_vuoro_nimi(), "Ismo")
+
+    def test_get_vuoro_nimi_toimii_oikein_jos_vuoro_2(self):
+        self.vuoro.vuoro = 2
+        self.assertEqual(self.vuoro.get_vuoro_nimi(), "Seppo")

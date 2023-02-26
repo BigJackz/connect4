@@ -46,7 +46,6 @@ class UI:
                         self.napit(tapahtuma.pos)
                         sarake = self.peli.sarake_koordinaateista(tapahtuma.pos)
                         self.peli.pelisiirto(sarake)
-                        self.peli.voiton_tarkastaja()
 
                     if self.peli.palauta_tilanne() == MENU:
                         self.napit(tapahtuma.pos)

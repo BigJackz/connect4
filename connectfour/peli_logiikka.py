@@ -13,7 +13,6 @@ MESTARI = 6
 
 class Peli:
     def __init__(self) -> None:
-        self.PELI = 1
         self.vuoro = Vuoro()
         self.tarkastaja = VoitonTarkastaja()
         self.minimax = Minimax()
@@ -44,9 +43,10 @@ class Peli:
             [0,0,0,0,0,0,0]
         ]
 
-    def piirra_poyta(self):
-        for i in range(len(self.pelipoyta)):
-            print(self.pelipoyta[i])
+    #Debuggaus komento poistuu ennen viimeistä versiota
+    #def piirra_poyta(self):
+    #    for i in range(len(self.pelipoyta)):
+    #        print(self.pelipoyta[i])
 
     def set_poyta(self, uusi):
         self.pelipoyta = uusi
@@ -60,7 +60,7 @@ class Peli:
             return True
         else:
             return False
-        
+
     #pygamen koordinaateista muunto yhdeksi int arvoksi joka merkkaa saraketta
     def sarake_koordinaateista(self, koordinaatit):
         x_koordinaatti = koordinaatit[0]
@@ -73,37 +73,26 @@ class Peli:
         else:
             return sarake
         
-    #vaihtaa vuoron
-    def vaihda_vuoro(self):
-        self.vuoro.vaihda_vuoro()
-    
     #Asettaa laatan sarakkeeseen jos voi ja vaihtaa vuoron
     def aseta_pala(self, sarake):
         for i in range(5,-1,-1):
             if self.pelipoyta[i][sarake] == 0:
                 self.pelipoyta[i][sarake] = self.vuoro.get_vuoro() #asetetaan self.pelaajaa vastaava laatta paikoilleen
                 break
-        else:
-            self.vuoro.vaihda_vuoro()
+
+        #Tarkistaa lopuksi onko jonpi kumpi pelaajista voittanut pelin
         self.voittaja, self.voitto = self.tarkastaja.voiton_tarkastaja(self.pelipoyta)
 
     #Pelisiirto tarkistaa koordinaateista mihinkä kohtaan pelaaja on asettamassa laattaa ja asettaa sen siihen kohtaan x koordinaatteja 
     def pelisiirto(self, sarake):
-        #sarake = self.sarake_koordinaateista(koordinaatit)
         if self.voi_asettaa(sarake, self.pelipoyta):
             self.aseta_pala(sarake)
-            self.vaihda_vuoro()
+            self.vuoro.vaihda_vuoro()
             if self.AI_peli:
                 self.AI_vuoro = True
-        #print(koordinaatit)
 
-    def pelin_alustaminen_ai_vastaan(self):
-        self.vuoro.set_vuoro(1)
-        self.voitto = False
-        self.tyhjenna_poyta()
-        self.tilanne = self.PELI
-        self.AI_peli = True
 
+    #Ottaa pygamen koordinaatit tuplen ja palauttaa int arvon joka vastaa saraketta alkaen arvosta 0 arvoon 6
     def sarake_koordinaateista(self, koordinaatit):   
         x_koordinaatti = koordinaatit[0]
         print(x_koordinaatti)
@@ -118,7 +107,13 @@ class Peli:
     #AI:n peliliikkeen toteuttaminen
     def AI_peliliike(self):
         paras_kohta, pisteet = self.minimax.minimax(self.pelipoyta, self.vaikeusaste, -math.inf, math.inf, True)
-        if self.voi_asettaa(paras_kohta, self.pelipoyta):
+        if paras_kohta == None:
+            #TODO
+            #jos paras_kohta == 0, niin minimax ei löydä kohtaa johon laittaa palaa joten pelipoytä on täysi ja peli päättyy tasapeliin
+            #se on lisättävä tähän kohtaan
+            #vaihdetaan paras_kohta nonesta takaisin int arvoksi että voi_asettaa ei yritä etsiä listasta indeksillä none
+            paras_kohta = 0
+        elif self.voi_asettaa(paras_kohta, self.pelipoyta):
            self.pelisiirto(paras_kohta)
            self.AI_vuoro = False
 
@@ -126,27 +121,27 @@ class Peli:
     def palauta_arvot(self):
         return self.vuoro.get_vuoro(), self.tilanne
     
-
-    #Tarkistetaan onko jonpi kumpi pelaajista voittanut    
-    def voiton_tarkastaja(self):
-        self.voittaja, self.voitto = self.tarkastaja.voiton_tarkastaja(self.pelipoyta)
-        print("voitto: ", self.voitto , " Voittaja: ", self.voittaja)
-
-    #Perus 1v1 pelin alustus
-    def aloita_1v1_peli(self):
+    def alusta_arvot(self):
         self.voitto = False
         self.AI_peli = False
-        self.tyhjenna_poyta()
-        self.tilanne = PELI
         self.vuoro.set_vuoro(1)
+        self.tyhjenna_poyta()
+
+    #Vaihtaa arvot sellaisiksi että peli alkaa AI:ta vastaan
+    def pelin_alustaminen_ai_vastaan(self):
+        self.tilanne = PELI
+        self.alusta_arvot()
+        self.AI_peli = True
+
+    #Vaihtaa arvot sellaisiksi että peli alkaa 1v1 toista pelaajaa vastaan
+    def aloita_1v1_peli(self):
+        self.tilanne = PELI
+        self.alusta_arvot()
 
     #Vaihtaa arvot sellaisiksi että peli menee takaisin päävalikkoon
     def paavalikkoon(self):
         self.tilanne = MENU
-        self.voitto = False
-        self.AI_peli = False
-        self.vuoro.set_vuoro(1)
-        self.tyhjenna_poyta()
+        self.alusta_arvot()
 
     #Vaihtaa pelin tilan ai peliksi
     def ai_peli(self):

@@ -29,14 +29,14 @@ class Minimax:
         pelaajan_laatta = 1
         pisteet = 0
         if tarkastettava.count(laatta) == 4:
-            pisteet += 120
+            pisteet += 100
         elif tarkastettava.count(laatta) == 3 and tarkastettava.count(0) == 1:
-            pisteet += 20
-        elif tarkastettava.count(laatta) == 2 and tarkastettava.count(0) == 2:
             pisteet += 10
+        elif tarkastettava.count(laatta) == 2 and tarkastettava.count(0) == 2:
+            pisteet += 5
 
         if tarkastettava.count(pelaajan_laatta) == 3 and tarkastettava.count(0) == 1:
-            pisteet -= 50
+            pisteet -= 70
             
         return pisteet
     
@@ -118,7 +118,7 @@ class Minimax:
                 #alpha beeta karsinta
                 a = max(a, pisteet)
                 if a >= b:
-                    break                
+                    break
             return sarake, pisteet
         #Minimoivan pelaajan vuoro
         else:
@@ -127,7 +127,7 @@ class Minimax:
             for s in mahdolliset:
                 rivi = self.seuraava_avoin_paikka(poyta, s)
                 uusi_poyta = []
-                #kopioi uuden pöydän 
+                #kopioi uuden pöydän
                 for i in range(6):
                     uusi_poyta.append(poyta[i].copy())
                 self.aseta_pala_taulukkoon(uusi_poyta, 1, rivi, s)

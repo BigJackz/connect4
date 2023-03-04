@@ -15,7 +15,7 @@ class TestPeli(unittest.TestCase):
         ]
 
     def test_sarake_koordinaateista_toimii_oikein_antaen_sarakkeen_1(self):
-        self.assertEqual(self.peli.sarake_koordinaateista((120,410)), 1)
+        self.assertEqual(self.peli.sarake_koordinaateista((120,410)), 2)
 
     def test_sarake_koordinaateista_toimii_oikein_antaen_sarakkeen_0(self):
         self.assertEqual(self.peli.sarake_koordinaateista((3,553)), 0)

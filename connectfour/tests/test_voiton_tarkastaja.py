@@ -1,6 +1,6 @@
-from logiikka import VoitonTarkastaja
+from voiton_tarkastaja import VoitonTarkastaja
 import unittest
-from logiikka import Vuoro
+
 
 class TestVoitto(unittest.TestCase):
     def setUp(self) -> None:
@@ -255,31 +255,3 @@ class TestVoitto(unittest.TestCase):
 
     def test_voitto_diagonaalissa_loytaa_voiton_oikein_tilanne10(self):
         self.assertEqual(self.v.voitto_diagonaalissa(self.diagonaalipoyta10), (True, 2))
-
-class TestVuoro(unittest.TestCase):
-    def setUp(self) -> None:
-        self.vuoro = Vuoro()
-    
-    def test_vaihda_vuoro_toimii_oikein(self):
-        self.vuoro.vaihda_vuoro()
-        self.assertEqual(self.vuoro.vuoro, 2)
-
-    def test_vaihda_vuoro_toimii_oikein_vaihtaen_vuorosta_2_vuoroon_1(self):
-        self.vuoro.vuoro = 2
-        self.vuoro.vaihda_vuoro()
-        self.assertEqual(self.vuoro.vuoro, 1)
-
-    def test_get_vuoro_toimii_oikein(self):
-        self.assertEqual(self.vuoro.get_vuoro(), 1)
-
-    def test_set_vuoro_toimii_oikein(self):
-        self.vuoro.set_vuoro(10)
-        self.assertEqual(self.vuoro.get_vuoro(), 10)
-
-    def test_get_vuoro_nimi_toimii_oikein_jos_vuoro_1(self):
-        self.vuoro.vuoro = 1
-        self.assertEqual(self.vuoro.get_vuoro_nimi(), "Ismo")
-
-    def test_get_vuoro_nimi_toimii_oikein_jos_vuoro_2(self):
-        self.vuoro.vuoro = 2
-        self.assertEqual(self.vuoro.get_vuoro_nimi(), "Seppo")

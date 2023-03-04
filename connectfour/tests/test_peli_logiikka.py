@@ -20,70 +20,8 @@ class TestPeli(unittest.TestCase):
     def test_sarake_koordinaateista_toimii_oikein_antaen_sarakkeen_0(self):
         self.assertEqual(self.peli.sarake_koordinaateista((3,553)), 0)
 
-    def test_get_poyta_toimii_oikein(self):
-        self.assertEqual(self.peli.get_poyta(), [
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0]
-        ])
-
-    def test_set_poyta_toimii_oikein(self):
-        uusi = [
-            [0,0,0,0,0,0,0],
-            [0,1,2,0,0,0,0],
-            [0,1,1,0,0,0,0],
-            [0,2,2,0,0,0,0],
-            [0,1,2,0,0,0,0],
-            [0,1,2,0,0,0,0]
-        ]
-        self.peli.set_poyta(uusi)
-        self.assertEqual(self.peli.pelipoyta, [
-            [0,0,0,0,0,0,0],
-            [0,1,2,0,0,0,0],
-            [0,1,1,0,0,0,0],
-            [0,2,2,0,0,0,0],
-            [0,1,2,0,0,0,0],
-            [0,1,2,0,0,0,0]
-        ])
-
-    def test_tyhjenna_poyta_toimii_oikein(self):
-        self.peli.set_poyta([
-            [0,0,0,0,0,0,0],
-            [0,1,2,0,0,0,0],
-            [0,1,1,0,0,0,0],
-            [0,2,2,0,0,0,0],
-            [0,1,2,0,0,0,0],
-            [0,1,2,0,0,0,0]
-        ])
-        self.peli.tyhjenna_poyta()
-        self.assertEqual(self.peli.pelipoyta, [
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0]
-        ])
-
-    def test_voi_asettaa_toimii_oikein_palauttaen_true(self):
-        self.assertEqual(self.peli.voi_asettaa(3, self.poyta), True)
-
-    def test_voi_asettaa_toimii_oikein_palauttaen_false(self):
-        self.poyta = [
-            [0,0,1,0,0,0,0],
-            [0,0,1,0,0,0,0],
-            [0,0,1,0,0,0,0],
-            [0,0,1,0,0,0,0],
-            [0,0,1,0,0,0,0],
-            [0,0,1,0,0,0,0]
-        ]
-        self.assertEqual(self.peli.voi_asettaa(2, self.poyta), False)
-
     def test_AI_peliliike_voittaa_pelin_jos_seuraavalla_siirrolla_voitto(self):
-        self.peli.set_poyta([
+        self.peli.poyta.set_poyta([
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
@@ -93,7 +31,7 @@ class TestPeli(unittest.TestCase):
         ])
         self.peli.vuoro.vuoro = 2
         self.peli.AI_peliliike()
-        self.assertEqual(self.peli.pelipoyta, [
+        self.assertEqual(self.peli.poyta.pelipoyta, [
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [2,0,0,0,0,0,0],
@@ -103,7 +41,7 @@ class TestPeli(unittest.TestCase):
         ])
 
     def test_AI_peliliike_ei_tee_mitaan_jos_ei_voi_asettaa(self):
-        self.peli.pelipoyta = [[1, 10, 6, 10, 10, 10, 2], [9, 5, 7, 9, 4, 8, 1], [8, 4, 2, 5, 1, 2, 8], [9, 1, 3, 4, 4, 10, 2], [9, 1, 5, 5, 3, 6, 6], [3, 2, 6, 8, 5, 7, 5]]
+        self.peli.poyta.pelipoyta = [[1, 10, 6, 10, 10, 10, 2], [9, 5, 7, 9, 4, 8, 1], [8, 4, 2, 5, 1, 2, 8], [9, 1, 3, 4, 4, 10, 2], [9, 1, 5, 5, 3, 6, 6], [3, 2, 6, 8, 5, 7, 5]]
         self.peli.AI_vuoro = True
         self.peli.AI_peliliike()
         self.assertEqual(self.peli.AI_vuoro, True)
@@ -114,9 +52,6 @@ class TestPeli(unittest.TestCase):
     def test_ai_peli_toimii_oikein(self):
         self.peli.ai_peli()
         self.assertEqual(self.peli.palauta_tilanne(), 4)
-
-    def test_palauta_arvot_toimii_oikein(self):
-        self.assertEqual(self.peli.palauta_arvot(), (1,2))
 
     def test_palauta_onko_voittoa_toimii_oikein(self):
         self.assertEqual(self.peli.palauta_onko_voittoa(), False)
@@ -149,7 +84,7 @@ class TestPeli(unittest.TestCase):
         self.peli.voitto = True
         self.peli.AI_peli = True
         self.peli.vuoro.set_vuoro(2)
-        self.peli.pelipoyta = [
+        self.peli.poyta.pelipoyta = [
             [0,0,0,4,0,0,0],
             [0,2,0,0,0,0,0],
             [0,0,0,0,5,0,0],
@@ -162,7 +97,7 @@ class TestPeli(unittest.TestCase):
         self.assertEqual(self.peli.voitto, False)
         self.assertEqual(self.peli.AI_peli, False)
         self.assertEqual(self.peli.vuoro.vuoro, 1)
-        self.assertEqual(self.peli.pelipoyta, [
+        self.assertEqual(self.peli.poyta.pelipoyta, [
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0],
@@ -174,7 +109,7 @@ class TestPeli(unittest.TestCase):
     def test_aloita_1v1_peli_vaihtaa_arvot_oikein(self):
         self.peli.voitto = True
         self.peli.AI_peli = True
-        self.peli.pelipoyta = [
+        self.peli.poyta.pelipoyta = [
             [0,0,0,4,0,0,0],
             [0,2,0,0,0,0,0],
             [0,0,0,0,5,0,0],
@@ -187,27 +122,27 @@ class TestPeli(unittest.TestCase):
         self.peli.aloita_1v1_peli()
         self.assertEqual(self.peli.voitto, False)
         self.assertEqual(self.peli.AI_peli, False)
-        self.assertEqual(self.peli.pelipoyta, [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
+        self.assertEqual(self.peli.poyta.pelipoyta, [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
         self.assertEqual(self.peli.tilanne, 1)
         self.assertEqual(self.peli.vuoro.vuoro, 1)
 
     def test_pelin_alustaminen_ai_vastaan_vaihtaa_arvot_oikein(self):
         self.peli.vuoro.set_vuoro(2)
         self.peli.voitto = True
-        self.peli.pelipoyta = [[0,0,0,1,0,0,0],[0,2,0,0,0,0,0],[0,0,0,0,0,3,0],[0,0,0,0,0,0,4],[0,0,1,2,2,0,0],[0,0,0,1,1,1,1]]
+        self.peli.poyta.pelipoyta = [[0,0,0,1,0,0,0],[0,2,0,0,0,0,0],[0,0,0,0,0,3,0],[0,0,0,0,0,0,4],[0,0,1,2,2,0,0],[0,0,0,1,1,1,1]]
         self.peli.tilanne = 5
         self.peli.AI_peli = False
         self.peli.pelin_alustaminen_ai_vastaan()
         self.assertEqual(self.peli.vuoro.vuoro, 1)
         self.assertEqual(self.peli.voitto, False)
-        self.assertEqual(self.peli.pelipoyta, [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
+        self.assertEqual(self.peli.poyta.pelipoyta, [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
         self.assertEqual(self.peli.tilanne, 1)
         self.assertEqual(self.peli.AI_peli, True)
 
     def test_pelisiirto_asettaa_palan_ja_vaihtaa_vuoron(self):
         self.peli.pelisiirto(2)
         self.assertEqual(self.peli.vuoro.vuoro, 2)
-        self.assertEqual(self.peli.pelipoyta, [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,1,0,0,0,0]])
+        self.assertEqual(self.peli.poyta.pelipoyta, [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,1,0,0,0,0]])
     
     def test_pelisiirto_vaihtaa_ai_vuoron_jos_ai_peli(self):
         self.peli.AI_peli = True
@@ -215,6 +150,6 @@ class TestPeli(unittest.TestCase):
         self.assertEqual(self.peli.AI_vuoro, True)
 
     def test_pelisiirto_ei_tee_mitaan_jos_ei_voi_asettaa(self):
-        self.peli.pelipoyta = [[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0]]
+        self.peli.poyta.pelipoyta = [[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0]]
         self.peli.pelisiirto(0)
         self.assertEqual(self.peli.vuoro.vuoro, 1)

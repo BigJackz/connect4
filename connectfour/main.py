@@ -7,7 +7,7 @@ BLUE = (20, 60, 200)
 YELLOW = (253,253,77)
 MENU = 2
 PELI = 1
-VOITTO = 3
+LOPPU = 3
 AI_VAIKEUSASTEEN_VALINTA = 4
 NOVIISI = 1
 ENNENKI = 3
@@ -25,7 +25,7 @@ class UI:
         self.lataa_kuvat()
         self.naytto = pygame.display.set_mode((self.leveys, self.korkeus))
         pygame.display.set_caption("Connect4")
-
+        
         #Täällä peli pysyy hengissä :)
         self.silmukka()
 
@@ -38,23 +38,22 @@ class UI:
             if tapahtuma.type == pygame.MOUSEBUTTONDOWN:
 
                 if tapahtuma.button == 1:
-                    if self.peli.palauta_onko_voittoa():
-                        self.peli.aseta_tilanne(VOITTO)
+                    if self.peli.palauta_onko_voittoa() or self.peli.onko_tasapeli():
+                        self.peli.aseta_tilanne(LOPPU)
                         self.napit(tapahtuma.pos)
-                        
+
                     if self.peli.palauta_tilanne() == PELI:
                         self.napit(tapahtuma.pos)
                         sarake = self.peli.sarake_koordinaateista(tapahtuma.pos)
                         self.peli.pelisiirto(sarake)
-
+                        
                     if self.peli.palauta_tilanne() == MENU:
                         self.napit(tapahtuma.pos)
-                        print(tapahtuma.pos)
+                        #print(tapahtuma.pos)
 
                     elif self.peli.palauta_tilanne() == AI_VAIKEUSASTEEN_VALINTA:
                         self.vaikeusaste_napit(tapahtuma.pos)
-                        print(tapahtuma.pos)
-                    
+                        #print(tapahtuma.pos)
                     
 
     #pelissä olevien nappien luonti
@@ -125,6 +124,10 @@ class UI:
                 vuoro = self.impact.render(f"Voitit Sepon!", True, YELLOW)
             else:
                 vuoro = self.impact.render(f'Pelaaja {self.peli.palauta_voittaja()} voitti!', True, YELLOW)
+
+        elif self.peli.onko_tasapeli():
+            vuoro = self.impact.render(f"Tasapeli!", True, YELLOW)
+
         elif self.peli.palauta_tilanne() == PELI:
             vuoro = self.impact.render(f'Pelaajan {self.peli.vuoro.get_vuoro()} vuoro!', True, YELLOW)
 
@@ -132,7 +135,7 @@ class UI:
             self.naytto.fill(BLUE)
             for y in range(6):
                 for x in range(7):
-                    ruutu = self.peli.get_poyta()[y][x]
+                    ruutu = self.peli.poyta.get_poyta()[y][x]
 
                     self.naytto.blit(self.kuvat[ruutu], (x * 100, y*100+100))
                     self.naytto.blit(vuoro, (10,20))
@@ -160,6 +163,5 @@ class UI:
         self.naytto.blit(poistu, (105,515))
         self.naytto.blit(ai_peli, (105,315))
         pygame.display.flip()
-
 
 UI()

@@ -68,3 +68,4 @@ class Minimax:
                 if a >= b:
                     break
             return sarake, pisteet
+        

@@ -1,5 +1,6 @@
 # Connect Four README
 
+![GHA workflow badge](https://github.com/BigJackz/connect4/workflows/CI/badge.svg)
 
 ### Dokumentit
 ##### Viikkoraportit

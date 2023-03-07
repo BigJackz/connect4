@@ -33,8 +33,7 @@
 
 Asenna ohjelman riippuvuudet komennolla:
 ```poetry install```
-Siirry kansioon connectfour
-Jonka jälkeen ohjelman voi käynnistää komennoilla:
+Siirry kansioon connectfour, jonka jälkeen ohjelman voi käynnistää komennoilla:
 ```python main.py``` tai ```poetry run main.py``` tai ```poetry run python main.py```
 
 ### Testaus

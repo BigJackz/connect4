@@ -37,7 +37,7 @@ Siirry kansioon connectfour
 Jonka jälkeen ohjelman voi käynnistää komennoilla:
 ```python main.py``` tai ```poetry run main.py``` tai ```poetry run python main.py```
 
-###Testaus
+### Testaus
 
 Ohjelman testit voidaan suorittaa komennolla:
 ```poetry run pytest connectfour```

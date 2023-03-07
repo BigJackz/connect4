@@ -1,6 +1,10 @@
-Ohjelmana on connect4 peli jossa käytössä minimax algoritmi alpha beeta karsinnalla.
+Ohjelmana on connect4 peli, jossa voi pelata joko toista pelaajaa vastaan tai tekoälyä, joka toimii minimax algoritmilla, jossa alpha beeta karsinta.
 
-Ohjelma koostuu tällä hetkellä kahdesta python tiedostosta, joista toisessa on pelilogiikka ja toisessa käyttöliittymä ja minimax algoritmi.
-Saatan myöhemmin erotella käyttöliittymän seasta minimax-algoritmi omaksi tiedostokseen, mutta ainakin tällä hetkellä se sijaitsee käyttöliittymän kanssa samassa teidostossa.
-
-Työstä löytyy tällä hetkellä jonkin verran puutteita kuten se, että pelilogiikasta löytyy ikävä bugi joka on korjattava pikimmiten sekä joitain ominaisuuksia mitä haluan vielä lisätä.
+Ohjelma koostuu seitsemästä eri python tiedostosta, sekä muutamasta kuvasta. 
+ai_pisteytys.py pisteyttää eri pelitilanteita, joita minimax sitten käyttää etsiessään parasta siirtoa.
+minimax.py sisältää minimax algoritmin, jota käytetään tekoälyä vastaan pelattavassa pelissä.
+voiton_tarkastaja.py sisältää pelin voittamisen tarkastamisen logiikan.
+pelipoyta_logiikka.py vastaa pelipöydän tilanteen yllä pitämisestä, sekä muutoksien suorittamisesta pelipöydälle.
+peli_logiikka.py sisältää pelissä sisältävien arvojen ylläpitämisen, sekä niiden muuttamisen eri pelitilanteisiin sopiviksi esimerkiksi pitää tiedon pitääkö näyttää menu vai pelitilanne. Tänne on myös toteutettu sekä pelaajan, että tekoälyn siirron tekeminen.
+vuoro.py pitää yllä tietoa siitä, kumman pelaajan vuoro on ja metodit sen muokkaamiseen.
+main.py sisältää pelin graafisen käyttöliittymän piirtämisen sekä pelin käynnistämisen.

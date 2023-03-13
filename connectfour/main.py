@@ -11,7 +11,7 @@ LOPPU = 3
 AI_VAIKEUSASTEEN_VALINTA = 4
 NOVIISI = 1
 ENNENKI = 3
-MESTARI = 6
+MESTARI = 5
 
 
 class UI:
@@ -26,7 +26,7 @@ class UI:
         self.naytto = pygame.display.set_mode((self.leveys, self.korkeus))
         pygame.display.set_caption("Connect4")
         
-        #Täällä peli pysyy hengissä :)
+        #Täällä peli pysyy käynnissä:)
         self.silmukka()
 
 
@@ -49,11 +49,9 @@ class UI:
                         
                     if self.peli.palauta_tilanne() == MENU:
                         self.napit(tapahtuma.pos)
-                        #print(tapahtuma.pos)
 
                     elif self.peli.palauta_tilanne() == AI_VAIKEUSASTEEN_VALINTA:
                         self.vaikeusaste_napit(tapahtuma.pos)
-                        #print(tapahtuma.pos)
                     
 
     #pelissä olevien nappien luonti
@@ -69,7 +67,6 @@ class UI:
         #nappi jolla aloitetaan peli ai:n kanssa
         if koordinaatit[0] > 90 and koordinaatit[0] < 550 and koordinaatit[1] > 300 and koordinaatit[1] < 366 and self.peli.palauta_tilanne() == MENU:
             self.peli.ai_peli()
-            #pygame.time.wait(500)
 
         #nappi jolla poistutaan pelistä
         if koordinaatit[0] > 105 and koordinaatit[0] < 235 and koordinaatit[1] > 520 and koordinaatit[1] < 566 and self.peli.palauta_tilanne() == MENU:
@@ -86,12 +83,12 @@ class UI:
             self.peli.vaihda_ai_vaikeustaso(ENNENKI)
             self.peli.pelin_alustaminen_ai_vastaan()
 
-        #Mestari asettaa minimax syvyyden arvoon 6
+        #Mestari asettaa minimax syvyyden arvoon 5
         if koordinaatit[0] > 105 and koordinaatit[0] < 262 and koordinaatit[1] > 520 and koordinaatit[1] < 566:
             self.peli.vaihda_ai_vaikeustaso(MESTARI)
             self.peli.pelin_alustaminen_ai_vastaan()
 
-    #Pelin elossa pitävä silmukka
+    #Pelin käynnissä pitävä silmukka
     def silmukka(self):
         while True:
             if self.peli.onko_ai_vuoro() and self.peli.onko_ai_peli() and not self.peli.palauta_onko_voittoa() and self.peli.vuoro.get_vuoro() == 2:
@@ -100,7 +97,7 @@ class UI:
                 self.tutki_tapahtuma()
             self.piirra_naytto()
 
-    #Ladataan pelissä käytettävät kuvat
+    #Lataa pelissä käytettävät kuvat
     def lataa_kuvat(self):
         self.kuvat = []
         for kuva in ["tyhja", "ismo", "seppo"]:
@@ -113,7 +110,8 @@ class UI:
             self.piirra_menu()
         if self.peli.palauta_tilanne() == AI_VAIKEUSASTEEN_VALINTA:
             self.piirra_sepon_vaikeusasteet_menu()
-    
+            
+    #Piirtää ruudulle pelilaudan ja kyseisen pelitilanteen
     def piirra_pelitilanne(self):
         impact_35 = pygame.font.SysFont('impact', 35)
         palaa = impact_35.render('Päävalikkoon', True, (YELLOW))
@@ -136,13 +134,12 @@ class UI:
             for y in range(6):
                 for x in range(7):
                     ruutu = self.peli.poyta.get_poyta()[y][x]
-
                     self.naytto.blit(self.kuvat[ruutu], (x * 100, y*100+100))
                     self.naytto.blit(vuoro, (10,20))
                     self.naytto.blit(palaa, (450,30))
             pygame.display.flip()
 
-    #Käytetään sepon vaikeusaste menun piirtämiseen
+    #Käytetään sepon eli tekoälyn vaikeusaste menun piirtämiseen
     def piirra_sepon_vaikeusasteet_menu(self):
         self.naytto.fill(WHITE)
         taso1 = self.impact.render('Noviisi', True, BLACK)

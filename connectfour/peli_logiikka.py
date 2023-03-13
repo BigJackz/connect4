@@ -24,8 +24,6 @@ class Peli:
         self.tilanne = MENU
         self.voittaja = 0
         self.voitto = False
-        #self.pelipoyta = [0, 1, 1, 2, 2, 2, 1], [2, 2, 1, 2, 1, 1, 1], [2, 2, 1, 2, 2, 1, 2], [2, 2, 2, 2, 1, 2, 2], [2, 1, 2, 2, 1, 1, 1], [1, 1, 1, 2, 2, 2, 1]
-        #self.pelipoyta = [1, 1, 1, 2, 2, 2, 1], [2, 2, 1, 2, 1, 1, 1], [2, 2, 1, 2, 2, 1, 2], [2, 2, 2, 2, 1, 2, 2], [2, 1, 2, 2, 1, 1, 1], [1, 1, 1, 2, 2, 2, 1]
 
     #Pelisiirto tarkistaa koordinaateista mihinkä kohtaan pelaaja on asettamassa laattaa ja asettaa sen siihen kohtaan x koordinaatteja 
     def pelisiirto(self, sarake):
@@ -58,33 +56,34 @@ class Peli:
            self.pelisiirto(paras_kohta)
            self.AI_vuoro = False
 
+    #Vaihtaa pelin muuttujien arvot niin, että voidaan aloittaa peli
     def alusta_arvot(self):
         self.voitto = False
         self.AI_peli = False
         self.vuoro.set_vuoro(1)
         self.poyta.tyhjenna_poyta()
 
-    #Vaihtaa arvot sellaisiksi että peli alkaa AI:ta vastaan
+    #Vaihtaa muuttujien arvot sellaisiksi, että peli alkaa AI:ta vastaan
     def pelin_alustaminen_ai_vastaan(self):
         self.tilanne = PELI
         self.alusta_arvot()
         self.AI_peli = True
 
-    #Vaihtaa arvot sellaisiksi että peli alkaa 1v1 toista pelaajaa vastaan
+    #Vaihtaa muuttujien arvot sellaisiksi, että peli alkaa 1v1 toista pelaajaa vastaan
     def aloita_1v1_peli(self):
         self.tilanne = PELI
         self.alusta_arvot()
 
-    #Vaihtaa arvot sellaisiksi että peli menee takaisin päävalikkoon
+    #Vaihtaa arvot sellaisiksi, että peli menee takaisin päävalikkoon
     def paavalikkoon(self):
         self.tilanne = MENU
         self.alusta_arvot()
 
-    #Vaihtaa pelin tilan ai peliksi
+    #Vaihtaa pelin tilan AI peliksi
     def ai_peli(self):
         self.tilanne = AI_VAIKEUSASTEEN_VALINTA
 
-    #Vaihtaa vaikeusastetta arvoon vaikeus
+    #Vaihtaa vaikeusastetta parametriin vaikeus
     def vaihda_ai_vaikeustaso(self, vaikeus):
         self.vaikeusaste = vaikeus
 
@@ -106,6 +105,7 @@ class Peli:
     def palauta_onko_voittoa(self):
         return self.voitto
     
+    #Tarkistaa onko ylimmän rivin nollien määrä nolla, jos on pelilauta on täysi ja palauta True, muutoin False
     def onko_tasapeli(self):
         rivi = self.poyta.get_poyta()[0]
         if rivi.count(0) == 0:

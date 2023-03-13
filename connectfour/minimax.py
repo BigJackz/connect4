@@ -14,7 +14,7 @@ class Minimax:
     def loppu(self, poyta):
         return self.voiton_tarkastaja.onko_voittoa(poyta)[0] or len(self.poyta.mahdolliset_sarakkeet(poyta)) == 0
 
-    #minimax algoritmin toteutus pelaaja on pelaaja 1 ja tekoäly pelaaja 2
+    #Minimax algoritmin toteutus pelaaja on pelaaja 1 ja tekoäly pelaaja 2, alpha beeta karsinnalla, jossa a = alpha, b = beeta
     def minimax(self, poyta, syvyys, a, b, maxPelaaja):
         mahdolliset = self.poyta.mahdolliset_sarakkeet(poyta)
         on_loppu = self.loppu(poyta)
@@ -28,14 +28,14 @@ class Minimax:
                     return None, 0
             else:
                 return None, self.pisteet.pisteyta(poyta, 2)
-        #maksivoivan pelaajan vuoro
+        #Maksivoivan pelaajan vuoro
         if maxPelaaja:
             pisteet = -math.inf
             sarake = random.choice(mahdolliset)
             for s in mahdolliset:
                 rivi = self.poyta.seuraava_avoin_paikka(poyta, s)
                 uusi_poyta = []
-                #kopioi uuden pöydän
+                #Kopioidaan uusi pöytä
                 for i in range(6):
                     uusi_poyta.append(poyta[i].copy())
                 self.poyta.aseta_pala_taulukkoon(uusi_poyta, 2, rivi, s)
@@ -43,7 +43,6 @@ class Minimax:
                 if uudet_pisteet > pisteet:
                     pisteet = uudet_pisteet
                     sarake = s
-                #alpha beeta karsinta
                 a = max(a, pisteet)
                 if a >= b:
                     break
@@ -55,7 +54,7 @@ class Minimax:
             for s in mahdolliset:
                 rivi = self.poyta.seuraava_avoin_paikka(poyta, s)
                 uusi_poyta = []
-                #kopioi uuden pöydän
+                #Kopioidaan uusi pöytä
                 for i in range(6):
                     uusi_poyta.append(poyta[i].copy())
                 self.poyta.aseta_pala_taulukkoon(uusi_poyta, 1, rivi, s)
@@ -63,7 +62,6 @@ class Minimax:
                 if uudet_pisteet < pisteet:
                     pisteet = uudet_pisteet
                     sarake = s
-                #alpha beeta karsinta
                 b = min(b, pisteet)
                 if a >= b:
                     break

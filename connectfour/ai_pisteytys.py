@@ -8,7 +8,7 @@ class Pisteet:
         pisteet = 0
         keski_sarake = [poyta[i][3] for i in range(4)]
         keskella = keski_sarake.count(laatta)
-        pisteet += keskella * 5
+        pisteet += keskella * 3
                 
         #pisteytys vaakasuunnassa otetaan 4 mittaisia rivejä ja katsotaan sitten montako laattaa pelaajalla 2 eli AI:lla on
         for r in range(6):

@@ -28,15 +28,3 @@
 ##### Toteutusdokumentti
 
 [Toteutusdokumentti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Toteutusdokumentti.md)
-
-### Käyttöohje
-
-Asenna ohjelman riippuvuudet komennolla:
-```poetry install```
-Siirry kansioon connectfour, jonka jälkeen ohjelman voi käynnistää komennoilla:
-```python main.py``` tai ```poetry run main.py``` tai ```poetry run python main.py```
-
-### Testaus
-
-Ohjelman testit voidaan suorittaa komennolla:
-```poetry run pytest connectfour```

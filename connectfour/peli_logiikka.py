@@ -8,8 +8,6 @@ MENU = 2
 PELI = 1
 AI_VAIKEUSASTEEN_VALINTA = 4
 NOVIISI = 1
-ENNENKI = 3
-MESTARI = 6
 
 class Peli:
     def __init__(self) -> None:
@@ -17,7 +15,6 @@ class Peli:
         self.tarkastaja = VoitonTarkastaja()
         self.minimax = Minimax()
         self.poyta = PeliPoytaLogiikka()
-        self.vaikeusaste = 1
         self.AI_vuoro = False
         self.AI_peli = False
         self.vaikeusaste = NOVIISI
@@ -35,7 +32,7 @@ class Peli:
                 self.AI_vuoro = True
 
     #Ottaa pygamen koordinaatit tuplen ja palauttaa int arvon joka vastaa saraketta alkaen arvosta 0 arvoon 6
-    def sarake_koordinaateista(self, koordinaatit):   
+    def sarake_koordinaateista(self, koordinaatit):
         x_koordinaatti = koordinaatit[0]
         x = str(x_koordinaatti)
         uusi_x = x[0]

@@ -11,12 +11,12 @@ LOPPU = 3
 AI_VAIKEUSASTEEN_VALINTA = 4
 NOVIISI = 1
 ENNENKI = 3
-MESTARI = 5
+MESTARI = 6
 
 
 class UI:
     def __init__(self) -> None:
-        #pelin alustamiseen tarkoitetut muuttujat
+        #Pelin alustamiseen tarkoitetut muuttujat
         pygame.init()
         self.peli = Peli()
         self.impact = pygame.font.SysFont('Impact',50)
@@ -30,7 +30,7 @@ class UI:
         self.silmukka()
 
 
-    #tutkii jatkuvasti onko pelissä tapahtunut jotakin, jos on tehdään siihen liittyvät toimenpiteet
+    #Tutkii jatkuvasti onko pelissä tapahtunut jotakin, jos on tehdään siihen liittyvät toimenpiteet
     def tutki_tapahtuma(self):
         for tapahtuma in pygame.event.get():
             if tapahtuma.type == pygame.QUIT:
@@ -54,26 +54,26 @@ class UI:
                         self.vaikeusaste_napit(tapahtuma.pos)
                     
 
-    #pelissä olevien nappien luonti
+    #Pelissä olevien nappien luonti
     def napit(self, koordinaatit):
-        #nappi jolla aloitetaan 1vs1 peli
+        #Nappi jolla aloitetaan 1vs1 peli
         if koordinaatit[0] > 105 and koordinaatit[0] < 220 and koordinaatit[1] > 120 and koordinaatit[1] < 166 and self.peli.palauta_tilanne() == MENU:
             self.peli.aloita_1v1_peli()
 
-        #nappi joka vie takaisin päävalikkoon
+        #Nappi joka vie takaisin päävalikkoon
         if koordinaatit[0] > 450 and koordinaatit[0] < 650 and koordinaatit[1] > 30 and koordinaatit[1] < 80:
             self.peli.paavalikkoon()
 
-        #nappi jolla aloitetaan peli ai:n kanssa
+        #Nappi jolla aloitetaan peli ai:n kanssa
         if koordinaatit[0] > 90 and koordinaatit[0] < 550 and koordinaatit[1] > 300 and koordinaatit[1] < 366 and self.peli.palauta_tilanne() == MENU:
             self.peli.ai_peli()
 
-        #nappi jolla poistutaan pelistä
+        #Nappi jolla poistutaan pelistä
         if koordinaatit[0] > 105 and koordinaatit[0] < 235 and koordinaatit[1] > 520 and koordinaatit[1] < 566 and self.peli.palauta_tilanne() == MENU:
             quit()
 
     def vaikeusaste_napit(self, koordinaatit):
-        #noviisi asettaa minimax syvyyden arvoon 1
+        #Noviisi asettaa minimax syvyyden arvoon 1
         if koordinaatit[0] > 105 and koordinaatit[0] < 244 and koordinaatit[1] > 120 and koordinaatit[1] < 166:
             self.peli.vaihda_ai_vaikeustaso(NOVIISI)
             self.peli.pelin_alustaminen_ai_vastaan()
@@ -83,7 +83,7 @@ class UI:
             self.peli.vaihda_ai_vaikeustaso(ENNENKI)
             self.peli.pelin_alustaminen_ai_vastaan()
 
-        #Mestari asettaa minimax syvyyden arvoon 5
+        #Mestari asettaa minimax syvyyden arvoon 6
         if koordinaatit[0] > 105 and koordinaatit[0] < 262 and koordinaatit[1] > 520 and koordinaatit[1] < 566:
             self.peli.vaihda_ai_vaikeustaso(MESTARI)
             self.peli.pelin_alustaminen_ai_vastaan()
@@ -110,7 +110,7 @@ class UI:
             self.piirra_menu()
         if self.peli.palauta_tilanne() == AI_VAIKEUSASTEEN_VALINTA:
             self.piirra_sepon_vaikeusasteet_menu()
-            
+
     #Piirtää ruudulle pelilaudan ja kyseisen pelitilanteen
     def piirra_pelitilanne(self):
         impact_35 = pygame.font.SysFont('impact', 35)

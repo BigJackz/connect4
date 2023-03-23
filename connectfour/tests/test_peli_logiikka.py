@@ -153,3 +153,11 @@ class TestPeli(unittest.TestCase):
         self.peli.poyta.pelipoyta = [[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0],[1,0,0,0,0,0,0]]
         self.peli.pelisiirto(0)
         self.assertEqual(self.peli.vuoro.vuoro, 1)
+
+    def test_onko_tasapeli_palauttaa_true_jos_pelipoyta_taynna(self):
+        self.peli.poyta.set_poyta([[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1]])
+        self.assertEqual(self.peli.onko_tasapeli(), True)
+        
+    def test_onko_tasapeli_palauttaa_false_jos_pelipoyta_ei_taynna(self):
+        self.peli.poyta.set_poyta([[1,2,0,2,1,1,1],[1,2,0,2,1,1,1],[1,2,0,2,1,1,1],[1,2,0,2,1,1,1],[1,2,0,2,1,1,1],[1,2,0,2,1,1,1]])
+        self.assertEqual(self.peli.onko_tasapeli(), False)

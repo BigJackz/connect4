@@ -1,4 +1,4 @@
-Ohjelmana on connect4 peli, jossa voi pelata joko toista pelaajaa vastaan tai tekoälyä, joka toimii minimax algoritmilla, jossa alpha beeta karsinta.
+Ohjelmana on connect4 peli, jossa voi pelata joko toista pelaajaa tai tekoälyä vastaan, joka toimii minimax algoritmilla, jossa alpha beeta karsinta.
 
 Ohjelma koostuu seitsemästä eri python tiedostosta, sekä muutamasta kuvasta. 
 Ai_pisteytys.py pisteyttää eri pelitilanteita, joita minimax sitten käyttää etsiessään parasta siirtoa.

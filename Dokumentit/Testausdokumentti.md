@@ -2,6 +2,7 @@
 Yksikkötestaus toteutettu laajasti.  
 Minimaxin testaukseen käytetyt testit löytyvät test_minimax.py tiedostosta  
 Minimaxin testaukseen käytetyt tilanteet, jossa 1 viittaa pelaajan laattaan, 2 ai:n laattaan ja 0 tyhjään kohtaan, minimaxia kutsutaan syvyydellä 6 testeissä:  
+Testit toteutettu kutsumalla ai_peliliikettä, joka asettaa laatan minimaxin arvion mukaan parhaaseen paikkaan.
 Tilanteen 1 alkutilanne:  
 [0, 0, 0, 0, 0, 0, 0]  
 [0, 0, 0, 0, 0, 0, 0]  

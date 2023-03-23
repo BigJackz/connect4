@@ -28,3 +28,7 @@
 ##### Toteutusdokumentti
 
 [Toteutusdokumentti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Toteutusdokumentti.md)
+
+##### Kayttöohje
+
+[Kayttöohje](https://github.com/BigJackz/connect4/blob/master/Dokumentit/Kayttoohje.md)

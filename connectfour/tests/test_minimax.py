@@ -71,7 +71,6 @@ class TestPeli(unittest.TestCase):
         self.peli.AI_peliliike()
         self.peli.pelisiirto(5)
         self.peli.AI_peliliike()
-        self.peli.poyta.print_poyta()
         self.assertEqual(self.peli.poyta.get_poyta(), [[0, 0, 0, 0, 0, 0, 0],
                                                        [0, 0, 0, 0, 0, 0, 0],
                                                        [0, 0, 0, 0, 0, 2, 0],

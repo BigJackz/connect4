@@ -1,4 +1,4 @@
-![Kattavuusraportti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/testikattavuus%207.3.2023.png)  
+![Kattavuusraportti](https://github.com/BigJackz/connect4/blob/master/Dokumentit/final%20testikattavuus%2023.3.2023.png)  
 Yksikkötestaus toteutettu laajasti.  
 Minimaxin testaukseen käytetyt testit löytyvät test_minimax.py tiedostosta  
 Minimaxin testaukseen käytetyt tilanteet, jossa 1 viittaa pelaajan laattaan, 2 ai:n laattaan ja 0 tyhjään kohtaan, minimaxia kutsutaan syvyydellä 6 testeissä:  

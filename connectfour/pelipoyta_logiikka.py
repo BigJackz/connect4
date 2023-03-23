@@ -58,7 +58,3 @@ class PeliPoytaLogiikka():
             if self.voi_asettaa(sarake, taulukko):
                 mahdolliset.append(sarake)
         return mahdolliset
-
-    def print_poyta(self):
-        for i in range(6):
-            print(self.pelipoyta[i])

@@ -184,8 +184,6 @@ class VoitonTarkastaja:
         vaakasuunnassa = self.voitto_vaakasuunnassa(taulukko)
         pystysuunnassa = self.voitto_pystysuunnassa(taulukko)
         diagonaalissa = self.voitto_diagonaalissa(taulukko)
-        #Tietox[0] kertoo onko voitto saavutettu jos on arvona boolean True, muutoin False
-        #Tietox[1] kertoo kumpi pelaajista on kyseessä saa arvon int, joka on aluksi 0 ja vaihtuu joko arvoon 1 tai 2
         if vaakasuunnassa[0]:
             voittaja = vaakasuunnassa[1]
             voitto = True
